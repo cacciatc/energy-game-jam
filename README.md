@@ -10,6 +10,16 @@ Goals
 
 1. Complete a polished one level pipe dream clone in the time alloted.
 
+Tools
+-----
+
+1. PyxelEdit
+2. Phaser
+3. Tiled
+4. Audacity
+5. Mario Paint Composer or http://www.synthgear.com/2011/music-misc/tone-generator
+6. Labchirp or Bfxr
+
 Other Tasks
 ------------
 
