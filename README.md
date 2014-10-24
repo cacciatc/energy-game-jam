@@ -5,6 +5,11 @@ Remember to
 2. Keep it consistent
 3. Polish.
 
+Goals
+-----
+
+1. Complete a polished one level pipe dream clone in the time alloted.
+
 Other Tasks
 ------------
 
@@ -22,7 +27,7 @@ Asset Tasks
 5. Text sound.
 6. Cable bubble-in sound.
 7. Cable placement sound.
-8. Bacground music. Pachelbels Canon in D? Other public-domained piece?
+8. Background music. Pachelbels Canon in D? Other public-domained piece?
 9. Tutorial text composition.
 
 
