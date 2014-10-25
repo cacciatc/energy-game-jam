@@ -28,6 +28,12 @@ Other Tasks
 2. Create level by hand with two non-optimal cable paths. Remove 1/2 duplicates, then increase the mode of each.
 3. Test level.
 
+Game Premise
+_____________
+
+1. Storm blows down power lines.  It's the gamer's job to re-wire the utility poles.  
+2. Additional levels will an additional house to the grid.  Gamer must route the wires between each house.
+
 Asset Tasks
 -----------
 
