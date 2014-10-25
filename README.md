@@ -33,6 +33,8 @@ Game Premise
 
 1. Storm blows down power lines.  It's the gamer's job to re-wire the utility poles.  
 2. Additional levels will an additional house to the grid.  Gamer must route the wires between each house.
+3. Possible sources: wind turbines, battery, solar cell.
+4. Possible sink: home
 
 Asset Tasks
 -----------
