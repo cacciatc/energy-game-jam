@@ -59,7 +59,7 @@ Programming Tasks
 2. Title to game screen transition.
 3. Flow logic.
 4. Field of play cable placement.
-5. Incoming cables.
+5. ~~Incoming cables generator.~~ _Chris_
 6. Tutorial game state and text.
 7. Rolling text.
 8. Game timer + game over logic.
