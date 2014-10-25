@@ -55,7 +55,7 @@ Asset Tasks
 Programming Tasks
 -----------------
 
-1. Cable bubble-in.
+1. ~~Cable bubble-in.~~ _Chris_
 2. Title to game screen transition.
 3. Flow logic.
 4. Field of play cable placement.
