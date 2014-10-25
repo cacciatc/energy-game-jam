@@ -39,7 +39,7 @@ Game Premise
 Asset Tasks
 -----------
 
-1. Background tiles. _Chris_
+1. ~~Background tiles.~~ _Chris_
 2. Title screen.
 3. Tutorial portrait and text panel.
 4. Font conversion.
