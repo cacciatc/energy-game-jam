@@ -24,7 +24,7 @@ Tools
 Other Tasks
 ------------
 
-1. Setup repo and directory structure. _Adam_
+1. ~~Setup repo and directory structure.~~ _Adam_
 2. Create level by hand with two non-optimal cable paths. Remove 1/2 duplicates, then increase the mode of each.
 3. Test level.
 
