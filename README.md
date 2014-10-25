@@ -24,20 +24,22 @@ Tools
 Other Tasks
 ------------
 
-1. Setup repo and directory structure.
+1. Setup repo and directory structure. _Adam_
 2. Create level by hand with two non-optimal cable paths. Remove 1/2 duplicates, then increase the mode of each.
 3. Test level.
 
 Game Premise
-_____________
+------------
 
 1. Storm blows down power lines.  It's the gamer's job to re-wire the utility poles.  
 2. Additional levels will an additional house to the grid.  Gamer must route the wires between each house.
+3. Possible sources: wind turbines, battery, solar cell.
+4. Possible sink: home
 
 Asset Tasks
 -----------
 
-1. Background tiles.
+1. ~~Background tiles.~~ _Chris_
 2. Title screen.
 3. Tutorial portrait and text panel.
 4. Font conversion.
