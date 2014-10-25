@@ -39,6 +39,7 @@ Asset Tasks
 7. Cable placement sound.
 8. Background music. Pachelbels Canon in D? Other public-domained piece?
 9. Tutorial text composition.
+10. Foreground tiles.
 
 
 Programming Tasks
