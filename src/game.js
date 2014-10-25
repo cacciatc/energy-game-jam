@@ -8,7 +8,7 @@ game_state.main.prototype = {
 
     preload: function() { 
 		// Function called first to load all the assets
-        game.load.image('hello', 'https://s3.amazonaws.com/uploads-1969f46zwpmbh5cm3kr2/hello.png');
+       // game.load.image('hello', 'https://s3.amazonaws.com/uploads-1969f46zwpmbh5cm3kr2/hello.png');
     },
 
     create: function() { 
