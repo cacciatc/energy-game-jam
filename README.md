@@ -4,6 +4,7 @@ Remember to
 1. KISS
 2. Keep it consistent
 3. Polish.
+4. Parallezie (don't block Adam & Adam better not block me).
 
 Goals
 -----
