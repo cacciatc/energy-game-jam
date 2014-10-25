@@ -1,6 +1,4 @@
 
-// it should have on or off state
-
 describe("A cable", function() {
 	it("should be testable", function() {
 		expect(new Cable()).not.toBe(null);

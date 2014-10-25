@@ -9,40 +9,62 @@ game_state.main.prototype = {
     preload: function() { 
 		// Function called first to load all the assets
         game.load.tilemap('pipecity', 'res/levels/level1.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.spritesheet('pipequeue', 'res/gfx/background-tiles.png', 32, 32);
+        game.load.spritesheet('foreground-tiles', 'res/gfx/pipe-tiles.png', 32, 32);
         game.load.image('tiles', 'res/gfx/background-tiles.png');
-
     },
 
     create: function() { 
-    	// Fuction called after 'preload' to setup the game
-    map = game.add.tilemap('pipecity');
-    map.addTilesetImage('background-tiles', 'tiles');
+        map = game.add.tilemap('pipecity');
+        map.addTilesetImage('background-tiles', 'tiles');
 
-    layer1 = map.createLayer('Background');
-    layer1.resizeWorld();
+        var layer1 = map.createLayer('Background');
+        layer1.resizeWorld();
 
-        var sprite = game.add.sprite(64, -162, 'pipequeue', 1);
-        var sprite1 = game.add.sprite(64, -130, 'pipequeue', 2);
+        // create initial tiles
+        this.cable_queue = [];
+        this.cable_generator = new CableGenerator([
+            new Cable(Cable.NORTH, Cable.SOUTH),
+            new Cable(Cable.SOUTH, Cable.EAST),
+            new Cable(Cable.SOUTH, Cable.WEST),
+            new Cable(Cable.WEST, Cable.EAST),
+            new Cable(Cable.NORTH, Cable.WEST),
+            new Cable(Cable.NORTH, Cable.EAST)
+        ]);
 
-        var group = game.add.group();
-        group.add(sprite);
-        group.add(sprite1);
-        group.y = -162;
-        console.log(group.length);
+        this.QUEUE_SIZE = 9;
+        for(var i = 0; i < this.QUEUE_SIZE; i++) {
+            var cable_logic = this.cable_generator.next();
+            var frame = 0;
 
-    var tween = game.add.tween(group);
-    tween.to({ y: 386 }, 3000, Phaser.Easing.Exponential.Out);
-    tween.start();
+            if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.SOUTH) {
+                frame = 4;
+            }
+            else if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.WEST) {
+                frame = 8;
+            }
+            else if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.EAST) {
+                frame = 5;
+            }
+            else if(cable_logic.entrance() == Cable.SOUTH && cable_logic.exit() == Cable.EAST) {
+                frame = 3;
+            }
+            else if(cable_logic.entrance() == Cable.SOUTH && cable_logic.exit() == Cable.WEST) {
+                frame = 7;
+            }
+            else if(cable_logic.entrance() == Cable.WEST && cable_logic.exit() == Cable.EAST) {
+                frame = 6;
+            }
 
+            var sprite = game.add.sprite(64, 0 + (i*32), 'foreground-tiles', frame);
+
+            sprite.cable_logic = cable_logic;
+
+            this.cable_queue.push(sprite);
+        }
     },
     
     update: function() {
-        if (game.input.keyboard.justReleased(Phaser.Keyboard.LEFT) )
-        {
-            var sprite = game.add.sprite(game.rnd.integer() % 800, game.rnd.integer() % 640, 'pipequeue', 6);
 
-        }
     },
 };
 

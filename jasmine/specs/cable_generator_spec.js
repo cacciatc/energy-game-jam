@@ -1,5 +1,3 @@
-// it should loop around if we run out of cables
-
 describe("A cable generator", function() {
 	it("should be testable", function() {
 		expect(new CableGenerator([])).not.toBe(null);
