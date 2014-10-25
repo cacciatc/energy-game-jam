@@ -64,6 +64,6 @@ Programming Tasks
 7. Rolling text.
 8. ~~Game timer + game over logic.~~ _Not doing_
 9. Cable tween down. _Chris_
-10. Display level 1 background. _Adam_
+10. ~~Display level 1 background.~~ _Adam_
 11. ~~Initial queue display.~~ _Chris_
 
