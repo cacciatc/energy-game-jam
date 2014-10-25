@@ -62,7 +62,7 @@ game_state.main.prototype = {
             sprite.anchor.y = 0.5;
 
             var tween = game.add.tween(sprite.scale);
-            tween.to({ x: 1.0, y: 1.0 }, 1000, Phaser.Easing.Bounce.Out);
+            tween.to({ x: 1.0, y: 1.0 }, 1000, Phaser.Easing.Bounce.Out).delay(500);
             tween.start();
 
             sprite.cable_logic = cable_logic;
