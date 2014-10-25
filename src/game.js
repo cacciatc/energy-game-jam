@@ -17,13 +17,13 @@ game_state.main.prototype = {
     create: function() { 
     	// Fuction called after 'preload' to setup the game
     map = game.add.tilemap('pipecity');
-    map.addTilesetImage('tilez', 'tiles');
+    map.addTilesetImage('background-tiles', 'tiles');
 
-    layer1 = map.createLayer('Tile Layer 1');
+    layer1 = map.createLayer('Background');
     layer1.resizeWorld();
 
-        var sprite = game.add.sprite(32, -162, 'pipequeue', 8);
-        var sprite1 = game.add.sprite(32, -130, 'pipequeue', 6);
+        var sprite = game.add.sprite(64, -162, 'pipequeue', 1);
+        var sprite1 = game.add.sprite(64, -130, 'pipequeue', 2);
 
         var group = game.add.group();
         group.add(sprite);
@@ -32,7 +32,7 @@ game_state.main.prototype = {
         console.log(group.length);
 
     var tween = game.add.tween(group);
-    tween.to({ y: 290 }, 3000, Phaser.Easing.Exponential.Out);
+    tween.to({ y: 386 }, 3000, Phaser.Easing.Exponential.Out);
     tween.start();
 
     },
