@@ -24,7 +24,7 @@ Tools
 Other Tasks
 ------------
 
-1. Setup repo and directory structure. _Adam_
+1. ~~Setup repo and directory structure.~~ _Adam_
 2. Create level by hand with two non-optimal cable paths. Remove 1/2 duplicates, then increase the mode of each.
 3. Test level.
 
@@ -49,6 +49,7 @@ Asset Tasks
 8. Background music. Pachelbels Canon in D? Other public-domained piece?
 9. Tutorial text composition.
 10. Foreground tiles.
+11. ~~Level 1 background.~~ _Chris_
 
 
 Programming Tasks
@@ -63,4 +64,5 @@ Programming Tasks
 7. Rolling text.
 8. Game timer + game over logic.
 9. Cable tween down.
+10. Display level 1 background. _Adam_
 
