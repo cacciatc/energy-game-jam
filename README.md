@@ -25,8 +25,8 @@ Other Tasks
 ------------
 
 1. ~~Setup repo and directory structure.~~ _Adam_
-2. Create level by hand with two non-optimal cable paths. Remove 1/2 duplicates, then increase the mode of each.
-3. Test level.
+2. Create level by hand with two non-optimal cable paths. Remove 1/2 duplicates, then increase the mode of each. _Adam_
+3. Test level. _Adam_, _Chris_
 
 Game Premise
 ------------
@@ -42,11 +42,11 @@ Asset Tasks
 1. ~~Background tiles.~~ _Chris_
 2. Title screen.
 3. Tutorial portrait and text panel.
-4. Font conversion.
+4. ~~Font conversion.~~ _Not doing_
 5. Text sound.
-6. Cable bubble-in sound.
-7. Cable placement sound.
-8. Background music. Pachelbels Canon in D? Other public-domained piece?
+6. Cable bubble-in sound. _Adam_
+7. Cable placement sound. _Adam_
+8. Background music. _Adam_
 9. Tutorial text composition.
 10. Foreground tiles.
 11. ~~Level 1 background.~~ _Chris_
@@ -57,8 +57,8 @@ Programming Tasks
 
 1. ~~Cable bubble-in.~~ _Chris_
 2. Title to game screen transition.
-3. Flow logic.
-4. Field of play cable placement.
+3. Flow logic. _Chris_
+4. Field of play cable placement. _Chris_
 5. ~~Incoming cables generator.~~ _Chris_
 6. Tutorial game state and text.
 7. Rolling text.
