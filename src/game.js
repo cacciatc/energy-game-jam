@@ -55,7 +55,15 @@ game_state.main.prototype = {
                 frame = 6;
             }
 
-            var sprite = game.add.sprite(64, 0 + (i*32), 'foreground-tiles', frame);
+            var sprite = game.add.sprite(64 + 16, 0 + (i*32) + 16, 'foreground-tiles', frame);
+            sprite.scale.x = 0.0;
+            sprite.scale.y = 0.0;
+            sprite.anchor.x = 0.5;
+            sprite.anchor.y = 0.5;
+
+            var tween = game.add.tween(sprite.scale);
+            tween.to({ x: 1.0, y: 1.0 }, 1000, Phaser.Easing.Bounce.Out);
+            tween.start();
 
             sprite.cable_logic = cable_logic;
 
