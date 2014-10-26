@@ -18,7 +18,7 @@ title_screen_state.main.prototype = {
         game.load.audio('placement', 'res/sfx/Placement.mp3');
         game.load.audio('remove', 'res/sfx/Overwrite.mp3');
         game.load.audio('incoming', 'res/sfx/BubbleBounce.mp3');
-        game.load.spritesheet('foreground', 'res/gfx/foreground-tiles.png', 16, 16);
+        game.load.spritesheet('foreground', 'res/gfx/foreground-tiles.png', 32, 32);
     },
     create: function() { 
 
@@ -173,9 +173,9 @@ game_state.main.prototype = {
         }
 
         // add source and sink
-        game.source = game.add.sprite(6 * 32, 5 * 32, 'foreground-tiles2', 0);
+        game.source = game.add.sprite(6 * 32, 5 * 32, 'foreground', 1);
         game.source.cable_logic = new Cable(Cable.SOUTH, Cable.EAST);
-        game.sink = game.add.sprite(6 * 32 + (16 * 32), 5 * 32 + (11 * 32), 'foreground-tiles2', 1);
+        game.sink = game.add.sprite(6 * 32 + (16 * 32), 5 * 32 + (11 * 32), 'foreground', 0);
         game.sink.cable_logic = new Cable(Cable.NORTH, Cable.WEST);
 
         game.source.alpha = 0;

@@ -51,6 +51,21 @@ FlowManager.prototype.rupdate = function(current, neighbor, dir, sink, playfield
 
 	if(isOn == true) {
 		//current.frame = 2;
+		if(current.alph == null) {
+			current.alph = game.add.tween(current);
+	                        
+	       	current.alph.to({ alpha: 0.5 }, 500, Phaser.Easing.Circular.InOut);
+	       	current.alph.start();
+
+	       	current.alph.onComplete.add(function (item) {
+	       		current.alph2 = game.add.tween(item);
+	       		current.alph2.to({ alpha: 1.0 }, 500, Phaser.Easing.Circular.InOut);
+	       		current.alph2.onComplete.add(function (item) {
+	       			item.alph.start();
+	       		});
+	       		current.alph2.start();
+	       	});
+    	}
 
 		var neighbors = this.neighbors(current, playfield);
 	
