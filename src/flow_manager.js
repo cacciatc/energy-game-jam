@@ -14,9 +14,6 @@ FlowManager.prototype.update = function(source, sink, playfield) {
 	this.rupdate(neighbors.east, source, Cable.EAST, sink, playfield);
 	this.rupdate(neighbors.west, source, Cable.WEST, sink, playfield);
 
-	// for any if there is a cable determine if the entrance or exit is the direction im approaching from
-	// if so, turn it on
-	// if not, turn it out
 	// if sink, game won!!!
 };
 
@@ -26,55 +23,83 @@ FlowManager.prototype.rupdate = function(current, neighbor, dir, sink, playfield
 	}
 
 	var cable = current.cable_logic;
-	if(dir == Cable.NORTH && (cable.entrance() == Cable.NORTH || cable.entrance() == Cable.SOUTH || 
-		cable.exit() == Cable.NORTH || cable.exit() == Cable.SOUTH)) {
-		cable.on();
-		var tween = game.add.tween(current);
-            tween.to({ alpha: 0.3 }, 100, Phaser.Easing.Bounce.Out);
-            tween.start();
+	var isOn = false;
+
+	if(cable == null) {
+		console.log(current);
 	}
-	else if(dir == Cable.NORTH && (cable.entrance() == Cable.NORTH || cable.entrance() == Cable.EAST || 
-		cable.exit() == Cable.NORTH || cable.exit() == Cable.EAST)) {
+	if(dir == Cable.NORTH && (cable.entrance() == Cable.SOUTH || cable.exit() == Cable.SOUTH)) {
 		cable.on();
-		var tween = game.add.tween(current);
-            tween.to({ alpha: 0.3 }, 100, Phaser.Easing.Bounce.Out);
-            tween.start();
+		isOn = true;
 	}
-	else if(dir == Cable.NORTH && (cable.entrance() == Cable.NORTH || cable.entrance() == Cable.WEST || 
-		cable.exit() == Cable.NORTH || cable.exit() == Cable.WEST)) {
+	/* south dir */
+	else if(dir == Cable.SOUTH && (cable.entrance() == Cable.NORTH || cable.exit() == NORTH)) {
 		cable.on();
-		var tween = game.add.tween(current);
-            tween.to({ alpha: 0.3 }, 100, Phaser.Easing.Bounce.Out);
-            tween.start();
+		isOn = true;
+	} 
+	else if(dir == Cable.EAST && (cable.entrance() == Cable.WEST || cable.exit() == Cable.WEST)) {
+		cable.on();
+		isOn = true;
 	}
-	else if(dir == Cable.SOUTH && (cable.entrance() == Cable.NORTH || cable.entrance() == Cable.SOUTH || 
-		cable.exit() == Cable.NORTH || cable.exit() == Cable.SOUTH)) {
+	else if(dir == Cable.WEST && (cable.entrance() == Cable.EAST || cable.exit() == Cable.EAST)) {
 		cable.on();
-		var tween = game.add.tween(current);
-            tween.to({ alpha: 0.3 }, 100, Phaser.Easing.Bounce.Out);
-            tween.start();
-	}
-	else if(dir == Cable.SOUTH && (cable.entrance() == Cable.SOUTH || cable.entrance() == Cable.EAST || 
-		cable.exit() == Cable.EAST || cable.exit() == Cable.SOUTH)) {
-		cable.on();
-		var tween = game.add.tween(current);
-            tween.to({ alpha: 0.3 }, 100, Phaser.Easing.Bounce.Out);
-            tween.start();
-	}
-	else if(dir == Cable.SOUTH && (cable.entrance() == Cable.SOUTH || cable.entrance() == Cable.WEST || 
-		cable.exit() == Cable.WEST || cable.exit() == Cable.SOUTH)) {
-		cable.on();
-		var tween = game.add.tween(current);
-            tween.to({ alpha: 0.3 }, 100, Phaser.Easing.Bounce.Out);
-            tween.start();
+		isOn = true;
 	}
 	else {
 		cable.off();
 	}
+
+	if(isOn == true) {
+		current.frame = 2;
+
+		var neighbors = this.neighbors(current, playfield);
+	
+		if(cable.exit() == Cable.NORTH || cable.entrance() == Cable.NORTH){
+				if(neighbors.north != null && neighbors.north != neighbor)
+				this.rupdate(neighbors.north, current, Cable.NORTH, sink, playfield);
+		}
+		if(cable.exit() == Cable.SOUTH || cable.entrance() == Cable.SOUTH){
+				if(neighbors.south != null && neighbors.south != neighbor)
+				this.rupdate(neighbors.south, current, Cable.SOUTH, sink, playfield);
+		}
+		if(cable.exit() == Cable.EAST || cable.entrance() == Cable.EAST){
+				if(neighbors.east != null && neighbors.east != neighbor)
+				this.rupdate(neighbors.east, current, Cable.EAST, sink, playfield);
+		}
+		if(cable.exit() == Cable.WEST || cable.entrance() == Cable.WEST){
+				if(neighbors.west != null && neighbors.west != neighbor)
+				this.rupdate(neighbors.west, current, Cable.WEST, sink, playfield);
+		}
+	}
 };
 
 FlowManager.prototype.neighbors = function(square, playfield) {
-	for(var row = 0; row < 11; row++) {
+
+	for(var row = 0; row < playfield.length; row++) {
+		for(var col = 0; col < playfield[row].length; col++) {
+			if(playfield[row] != null && playfield[row][col] == square) {
+				var north = null;
+				var south = null;
+				var west = null;
+				var east = null;
+
+				if(playfield[row-1] != null && playfield[row-1][col] != null) {
+					north = playfield[row-1][col];
+				}
+				if(playfield[row+1] != null && playfield[row+1][col] != null) {
+					south = playfield[row+1][col];
+				}
+				if(playfield[row] != null && playfield[row][col-1] != null) {
+					west = playfield[row][col-1];
+				}
+				if(playfield[row] != null && playfield[row][col+1] != null) {
+					east = playfield[row][col+1];
+				}
+				return {north:north, south:south, west:west, east:east};
+			}
+		}
+	}
+	/*for(var row = 0; row < 11; row++) {
 		for(var col = 0; col < 17; col++) {
 			if(playfield[row] != null && playfield[row][col] == square) {
 				var north = null;
@@ -83,20 +108,20 @@ FlowManager.prototype.neighbors = function(square, playfield) {
 				var east = null;
 
 				if(playfield[row-1] != null && playfield[row-1][col] != null) {
-					north = playfield[row-1][col]
+					north = playfield[row-1][col];
 				}
 				if(playfield[row+1] != null && playfield[row+1][col] != null) {
-					south = playfield[row+1][col]
+					south = playfield[row+1][col];
 				}
 				if(playfield[row] != null && playfield[row][col-1] != null) {
-					west = playfield[row][col-1]
+					west = playfield[row][col-1];
 				}
 				if(playfield[row] != null && playfield[row][col+1] != null) {
-					east = playfield[row][col+1]
+					east = playfield[row][col+1];
 				}
 				return {north:north, south:south, west:west, east:east};
 			}
 		}
-	}
+	}*/
 	return {north:null, south:null, west:null, east:null};
 };

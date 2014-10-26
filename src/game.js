@@ -113,11 +113,17 @@ game_state.main.prototype = {
 
         // add source and sink
         game.source = game.add.sprite(6 * 32, 5 * 32, 'foreground-tiles2', 0);
+        game.source.cable_logic = new Cable(Cable.SOUTH, Cable.EAST);
         game.sink = game.add.sprite(6 * 32 + (16 * 32), 5 * 32 + (11 * 32), 'foreground-tiles2', 1);
+        game.sink.cable_logic = new Cable(Cable.NORTH, Cable.WEST);
 
-        game.play_field[0] = [];
+        for(var row = 0; row < 11; row++) {
+            game.play_field[row] = [];
+            for(var col = 0; col < 17; col++) {
+                game.play_field[row][col] = null;
+            }
+        }
         game.play_field[0][0] = game.source;
-        game.play_field[10] = [];
         game.play_field[10][16] = game.sink;
     },
     
