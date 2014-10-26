@@ -20,15 +20,18 @@ FOPLogic.prototype.fixLocation = function(item) {
 		//nearest y
 		var item_y = (row * 32) - 16;
 
-		game.play_field[row] = game.play_field[row] || [];
+		var col2 = Math.round((item.x + 16 - x) / 32) - 1;
+		var row2 = Math.round((item.y + 16 - y) / 32) - 1; 
 
-		if(game.play_field[row][col] != null) {
-			game.play_field[row][col].destroy();
-			game.play_field[row][col] = item;
+		game.play_field[row2] = game.play_field[row2] || [];
+
+		if(game.play_field[row2][col2] != null) {
+			game.play_field[row2][col2].destroy();
+			game.play_field[row2][col2] = item;
 			game.removeSound.play();
 		}
 		else {
-			game.play_field[row][col] = item;
+			game.play_field[row2][col2] = item;
 			game.placementSound.play();
 		}
 
@@ -118,6 +121,8 @@ FOPLogic.prototype.fixLocation = function(item) {
         game.cable_queue.reverse();
         game.cable_queue.push(sprite);
         game.cable_queue.reverse();
+
+        game.flow_manager.update(game.source, game.sink, game.play_field);
 	}
 	else {
 		var tween = game.add.tween(item);

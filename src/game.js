@@ -114,12 +114,15 @@ game_state.main.prototype = {
         // add source and sink
         game.source = game.add.sprite(6 * 32, 5 * 32, 'foreground-tiles2', 0);
         game.sink = game.add.sprite(6 * 32 + (16 * 32), 5 * 32 + (11 * 32), 'foreground-tiles2', 1);
+
+        game.play_field[0] = [];
+        game.play_field[0][0] = game.source;
+        game.play_field[10] = [];
+        game.play_field[10][16] = game.sink;
     },
     
     update: function() {
-        // turn all cables off
 
-        game.flow_manager.update(game.source, game.sink, game.play_field);
     }
 };
 

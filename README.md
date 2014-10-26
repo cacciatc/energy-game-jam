@@ -43,9 +43,9 @@ Asset Tasks
 
 1. ~~Background tiles.~~ _Chris_
 2. Title screen.
-3. Tutorial portrait and text panel.
+3. Text panel.
 4. ~~Font conversion.~~ _Not doing_
-5. Text sound.
+5. ~~Text sound.~~ _Chris_
 6. ~~Cable bubble-in sound.~~ _Adam_
 7. ~~Cable placement sound.~~ _Adam_
 8. ~~Background music.~~ _Not doing_
@@ -58,12 +58,12 @@ Programming Tasks
 -----------------
 
 1. ~~Cable bubble-in.~~ _Chris_
-2. Title to game screen transition.
+2. Title to game screen transition. _Chris_
 3. Flow logic. _Chris_
 4. ~~Field of play cable placement.~~ _Chris_
 5. ~~Incoming cables generator.~~ _Chris_
 6. Tutorial game state and text.
-7. Rolling text.
+7. ~~Rolling text.~~ _Not doing_
 8. ~~Game timer + game over logic.~~ _Not doing_
 9. ~~Cable tween down.~~ _Chris_
 10. ~~Display level 1 background.~~ _Adam_
