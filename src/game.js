@@ -199,10 +199,15 @@ game_state.main.prototype = {
         game.play_field[0][0] = game.source;
         game.play_field[10][16] = game.sink;
 
-        //var sprite = game.add.sprite(6*32, 32, 'textimg');
+        //var text = "A recent storm has disabled the power lines. Connect the hydroelectric source to the home to win.";
+        //var style = { font: "21px NESFont", fill: "#ffa39960", align: "center" };
+
+        //var t = game.add.text(32 * 6, 32, text, style);
+
+        var sp = game.add.sprite(32*6, 32, 'textimg');
     },
     
-    update: function() {
+    update: function() {0
 
     }
 };
