@@ -13,6 +13,7 @@ title_screen_state.main.prototype = {
         game.load.spritesheet('foreground-tiles', 'res/gfx/powerlines.png', 32, 32);
        
         game.load.image('tiles', 'res/gfx/background-tiles.png');
+        game.load.image('game-won', 'res/gfx/game-win.png');
         game.load.image('tiles2', 'res/gfx/background2.png');
         game.load.image('textimg', 'res/gfx/text.png');
         game.load.audio('placement', 'res/sfx/Placement.mp3');
@@ -205,6 +206,51 @@ game_state.main.prototype = {
         //var t = game.add.text(32 * 6, 32, text, style);
 
         var sp = game.add.sprite(32*6, 32, 'textimg');
+         game.onetime = false;
+        this.jumpKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.jumpKey.onDown.add(function() {
+                if(!game.onetime){
+                    game.ontime = true;
+            var sp2 = game.add.sprite((5*32) + (15*32/2), (32*7) + (3*32/2), 'game-won');
+            var t4 = game.add.tween(sp2.scale);
+
+            sp2.scale.x = 0;
+            sp2.scale.y = 0;
+            sp2.anchor.x = 0.5;
+            sp2.anchor.y = 0.5;
+
+            t4.to({ x: 1.0, y: 1.0 }, 2000, Phaser.Easing.Bounce.Out).delay(100);
+            t4.start();
+        }
+        }, null);
+        /*this.game.input.onDown.add(function() {
+               if(!game.onetime){
+                   game.ontime = true;
+            var sp2 = game.add.sprite((5*32) + (15*32/2), (32*7) + (3*32/2), 'game-won');
+            var t4 = game.add.tween(sp2.scale);
+
+            sp2.scale.x = 0;
+            sp2.scale.y = 0;
+            sp2.anchor.x = 0.5;
+            sp2.anchor.y = 0.5;
+
+            t4.to({ x: 1.0, y: 1.0 }, 2000, Phaser.Easing.Bounce.Out).delay(1000);
+            t4.start();
+             }
+        }, null);*/
+    },
+
+    processKey: function() {
+        var sp2 = game.add.sprite((5*32) + (15*32/2), (32*7) + (3*32/2), 'game-won');
+        var t4 = game.add.tween(sp2.scale);
+
+        sp2.scale.x = 0;
+        sp2.scale.y = 0;
+        sp2.anchor.x = 0.5;
+        sp2.anchor.y = 0.5;
+
+        t4.to({ x: 1.0, y: 1.0 }, 2000, Phaser.Easing.Bounce.Out).delay(1000);
+        t4.start();
     },
     
     update: function() {0
