@@ -1,13 +1,14 @@
 // Initialize Phaser, and creates a 400x490px game
 var game = new Phaser.Game(800, 640, Phaser.AUTO, 'game_div');
 var game_state = {};
+var title_screen_state = {};
 
 // Creates a new 'main' state that wil contain the game
-game_state.main = function() { };  
-game_state.main.prototype = {
-
+title_screen_state.main = function() { };  
+title_screen_state.main.prototype = {
     preload: function() { 
-		// Function called first to load all the assets
+        game.load.image('title', 'res/gfx/game-title.png');
+
         game.load.tilemap('pipecity', 'res/levels/level1.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.spritesheet('foreground-tiles', 'res/gfx/pipe-tiles.png', 32, 32);
         game.load.image('tiles', 'res/gfx/background-tiles.png');
@@ -16,6 +17,56 @@ game_state.main.prototype = {
         game.load.audio('incoming', 'res/sfx/BubbleBounce.mp3');
         game.load.spritesheet('foreground', 'res/gfx/foreground-tiles.png', 16, 16);
     },
+    create: function() { 
+
+        var sprite = game.add.sprite(0, 0, 'title');
+        sprite.inputEnabled = true;
+        game.title_done = false;
+        sprite.events.onInputUp.add( function(item) {
+            if(!game.title_done){
+                //game.title_tween = game.add.tween(sprite);
+                //game.title_tween.to({ y: 800.0 }, 1000, Phaser.Easing.Cubic.In).delay(0);
+               // game.title_tween.start();
+
+                /*game.title_tween.onComplete.add(function () {
+                    if(game.title_done){
+                        game.state.start('main'); 
+                    }
+                });*/
+
+                game.title_tween = game.add.tween(sprite);
+                game.title_tween.to({ alpha: 0.0 }, 1000, Phaser.Easing.Cubic.In).delay(0);
+                game.title_tween.start();
+
+                game.title_tween.onComplete.add(function () {
+                    if(game.title_done){
+                        game.state.start('main'); 
+                    }
+                });
+
+                game.title_done = true;
+             }
+        });
+    },
+    update: function() {
+
+    }
+};
+
+// Creates a new 'main' state that wil contain the game
+game_state.main = function() { };  
+game_state.main.prototype = {
+
+    preload: function() { 
+		// Function called first to load all the assets
+       /* game.load.tilemap('pipecity', 'res/levels/level1.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.spritesheet('foreground-tiles', 'res/gfx/pipe-tiles.png', 32, 32);
+        game.load.image('tiles', 'res/gfx/background-tiles.png');
+        game.load.audio('placement', 'res/sfx/Placement.mp3');
+        game.load.audio('remove', 'res/sfx/Overwrite.mp3');
+        game.load.audio('incoming', 'res/sfx/BubbleBounce.mp3');
+        game.load.spritesheet('foreground', 'res/gfx/foreground-tiles.png', 16, 16);*/
+    },
 
     create: function() { 
         map = game.add.tilemap('pipecity');
@@ -23,6 +74,12 @@ game_state.main.prototype = {
 
         var layer1 = map.createLayer('Background');
         layer1.resizeWorld();
+
+        layer1.alpha = 0.0;
+        var alpha_tween2 = game.add.tween(layer1);
+                        
+        alpha_tween2.to({ alpha: 1.0 }, 400, Phaser.Easing.Circular.InOut).delay(0);
+        alpha_tween2.start();
 
         game.fop_logic = new FOPLogic();
 
@@ -89,7 +146,7 @@ game_state.main.prototype = {
             sprite.orig_y = sprite.y;
 
             var tween = game.add.tween(sprite.scale);
-            tween.to({ x: 1.0, y: 1.0 }, 1000, Phaser.Easing.Bounce.Out).delay(500);
+            tween.to({ x: 1.0, y: 1.0 }, 1000, Phaser.Easing.Bounce.Out).delay(1000);
             tween.start();
 
             sprite.cable_logic = cable_logic;
@@ -117,6 +174,18 @@ game_state.main.prototype = {
         game.sink = game.add.sprite(6 * 32 + (16 * 32), 5 * 32 + (11 * 32), 'foreground-tiles2', 1);
         game.sink.cable_logic = new Cable(Cable.NORTH, Cable.WEST);
 
+        game.source.alpha = 0;
+        game.sink.alpha = 0;
+        var alpha_tween3 = game.add.tween(game.source);
+                        
+        alpha_tween3.to({ alpha: 1.0 }, 1000, Phaser.Easing.Circular.InOut).delay(800);
+        alpha_tween3.start();
+
+        var alpha_tween4 = game.add.tween(game.sink);
+                        
+        alpha_tween4.to({ alpha: 1.0 }, 1000, Phaser.Easing.Circular.InOut).delay(800);
+        alpha_tween4.start();
+
         for(var row = 0; row < 11; row++) {
             game.play_field[row] = [];
             for(var col = 0; col < 17; col++) {
@@ -133,5 +202,6 @@ game_state.main.prototype = {
 };
 
 // Add and start the 'main' state to start the game
-game.state.add('main', game_state.main);  
-game.state.start('main'); 
+game.state.add('main', game_state.main); 
+game.state.add('title', title_screen_state.main); 
+game.state.start('title'); 
