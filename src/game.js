@@ -14,6 +14,7 @@ game_state.main.prototype = {
         game.load.audio('placement', 'res/sfx/Placement.mp3');
         game.load.audio('remove', 'res/sfx/Overwrite.mp3');
         game.load.audio('incoming', 'res/sfx/BubbleBounce.mp3');
+        game.load.spritesheet('foreground', 'res/gfx/foreground-tiles.png', 16, 16);
     },
 
     create: function() { 
@@ -24,6 +25,8 @@ game_state.main.prototype = {
         layer1.resizeWorld();
 
         game.fop_logic = new FOPLogic();
+
+        game.flow_manager = new FlowManager();
 
         game.placementSound = game.add.sound('placement');
         game.removeSound = game.add.sound('remove');
@@ -97,13 +100,17 @@ game_state.main.prototype = {
                 sprite.events.onDragStop.add(game.fop_logic.fixLocation);
             }
             game.cable_queue.push(sprite);
-
-
         }
+
+        // add source and sink
+        game.source = game.add.sprite(6 * 32, 5 * 32, 'foreground-tiles2', 0);
+        game.sink = game.add.sprite(6 * 32 + (16 * 32), 5 * 32 + (11 * 32), 'foreground-tiles2', 1);
     },
     
     update: function() {
+        // turn all cables off
 
+        game.flow_manager.update(game.source, game.sink, game.play_field);
     }
 };
 

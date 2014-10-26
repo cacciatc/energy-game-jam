@@ -48,7 +48,7 @@ Asset Tasks
 5. Text sound.
 6. ~~Cable bubble-in sound.~~ _Adam_
 7. ~~Cable placement sound.~~ _Adam_
-8. Background music. _Adam_
+8. ~~Background music.~~ _Not doing_
 9. Tutorial text composition.
 10. Foreground tiles.
 11. ~~Level 1 background.~~ _Chris_
