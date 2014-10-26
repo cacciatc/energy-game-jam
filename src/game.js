@@ -12,6 +12,8 @@ title_screen_state.main.prototype = {
         game.load.tilemap('pipecity', 'res/levels/level1.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.spritesheet('foreground-tiles', 'res/gfx/pipe-tiles.png', 32, 32);
         game.load.image('tiles', 'res/gfx/background-tiles.png');
+        game.load.image('tiles2', 'res/gfx/background2.png');
+        game.load.image('textimg', 'res/gfx/text.png');
         game.load.audio('placement', 'res/sfx/Placement.mp3');
         game.load.audio('remove', 'res/sfx/Overwrite.mp3');
         game.load.audio('incoming', 'res/sfx/BubbleBounce.mp3');
@@ -71,6 +73,7 @@ game_state.main.prototype = {
     create: function() { 
         map = game.add.tilemap('pipecity');
         map.addTilesetImage('background-tiles', 'tiles');
+        map.addTilesetImage('background2', 'tiles2');
 
         var layer1 = map.createLayer('Background');
         layer1.resizeWorld();
@@ -194,6 +197,8 @@ game_state.main.prototype = {
         }
         game.play_field[0][0] = game.source;
         game.play_field[10][16] = game.sink;
+
+        //var sprite = game.add.sprite(6*32, 32, 'textimg');
     },
     
     update: function() {
