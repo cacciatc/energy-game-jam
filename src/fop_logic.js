@@ -12,10 +12,25 @@ FOPLogic.prototype.fixLocation = function(item) {
 	if(item.x >= x && item.x <= x + width &&
 		item.y >= y && item.y <= y + height) {
 
+		var col = Math.round((item.x + 16) / 32);
+		var row = Math.round((item.y + 16) / 32);
+
 		//nearest x
-		var item_x = (Math.round((item.x + 16) / 32) * 32) - 16;
+		var item_x = (col * 32) - 16;
 		//nearest y
-		var item_y = (Math.round((item.y + 16) / 32) * 32) - 16;
+		var item_y = (row * 32) - 16;
+
+		game.play_field[row] = game.play_field[row] || [];
+
+		if(game.play_field[row][col] != null) {
+			game.play_field[row][col].destroy();
+			game.play_field[row][col] = item;
+			game.removeSound.play();
+		}
+		else {
+			game.play_field[row][col] = item;
+			game.placementSound.play();
+		}
 
 		var tween = game.add.tween(item);
 		var tween2 = game.add.tween(item);

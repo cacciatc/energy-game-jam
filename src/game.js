@@ -11,6 +11,8 @@ game_state.main.prototype = {
         game.load.tilemap('pipecity', 'res/levels/level1.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.spritesheet('foreground-tiles', 'res/gfx/pipe-tiles.png', 32, 32);
         game.load.image('tiles', 'res/gfx/background-tiles.png');
+        game.load.audio('placement', 'res/sfx/Placement.mp3');
+        game.load.audio('remove', 'res/sfx/Overwrite.mp3');
     },
 
     create: function() { 
@@ -22,6 +24,9 @@ game_state.main.prototype = {
 
         game.fop_logic = new FOPLogic();
 
+        game.placementSound = game.add.sound('placement');
+        game.removeSound = game.add.sound('remove');
+
         // create initial tiles
         game.cable_queue = [];
         game.cable_generator = new CableGenerator([
@@ -32,6 +37,8 @@ game_state.main.prototype = {
             new Cable(Cable.NORTH, Cable.WEST),
             new Cable(Cable.NORTH, Cable.EAST)
         ]);
+
+        game.play_field = [];
 
         this.QUEUE_SIZE = 9;
         for(var i = 0; i < this.QUEUE_SIZE; i++) {
