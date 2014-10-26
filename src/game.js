@@ -16,21 +16,22 @@ title_screen_state.main.prototype = {
         sprite.events.onInputOver.add( function(item) {
             if(!game.title_done){
                 game.title_tween = game.add.tween(sprite);
-                game.title_tween.to({ y: 1000.0 }, 2000, Phaser.Easing.Cubic.In).delay(500);
-                tween.start();
+                game.title_tween.to({ y: 600.0 }, 1000, Phaser.Easing.Cubic.In).delay(100);
+                game.title_tween.start();
+
+                game.title_tween.onComplete.add(function () {
+                    game.state.start('main'); 
+                });
 
                 var tween2 = game.add.tween(sprite);
-                tween2.to({ alpha: 0.0 }, 1500, Phaser.Easing.Cubic.In).delay(400);
+                tween2.to({ alpha: 0.0 }, 1000, Phaser.Easing.Cubic.In).delay(100);
                 tween2.start();
                 game.title_done = true;
              }
         });
     },
     update: function() {
-        if(game.title_tween.isDone()) {
-            game.state.add('main', game_state.main);  
-            game.state.start('main'); 
-        }
+
     }
 };
 
@@ -165,5 +166,6 @@ game_state.main.prototype = {
 };
 
 // Add and start the 'main' state to start the game
-game.state.add('title', title_screen_state.main);  
+game.state.add('title', title_screen_state.main); 
+game.state.add('main', game_state.main);  
 game.state.start('title'); 
