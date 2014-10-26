@@ -11,6 +11,7 @@ title_screen_state.main.prototype = {
 
         game.load.tilemap('pipecity', 'res/levels/level1.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.spritesheet('foreground-tiles', 'res/gfx/powerlines.png', 32, 32);
+       
         game.load.image('tiles', 'res/gfx/background-tiles.png');
         game.load.image('tiles2', 'res/gfx/background2.png');
         game.load.image('textimg', 'res/gfx/text.png');

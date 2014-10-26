@@ -50,7 +50,7 @@ FlowManager.prototype.rupdate = function(current, neighbor, dir, sink, playfield
 	}
 
 	if(isOn == true) {
-		current.frame = 2;
+		//current.frame = 2;
 
 		var neighbors = this.neighbors(current, playfield);
 	

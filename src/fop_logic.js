@@ -80,23 +80,24 @@ FOPLogic.prototype.fixLocation = function(item) {
         var frame = 0;
 
         if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.SOUTH) {
-            frame = 4;
-        }
-        else if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.WEST) {
-            frame = 8;
-        }
-        else if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.EAST) {
-            frame = 5;
-        }
-        else if(cable_logic.entrance() == Cable.SOUTH && cable_logic.exit() == Cable.EAST) {
-            frame = 3;
-        }
-        else if(cable_logic.entrance() == Cable.SOUTH && cable_logic.exit() == Cable.WEST) {
-            frame = 7;
-        }
-        else if(cable_logic.entrance() == Cable.WEST && cable_logic.exit() == Cable.EAST) {
-            frame = 6;
-        }
+                frame = 4;
+            }
+            else if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.WEST) {
+                frame = 15;
+            }
+            else if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.EAST) {
+                frame = 12;
+            }
+            else if(cable_logic.entrance() == Cable.SOUTH && cable_logic.exit() == Cable.EAST) {
+                frame = 0;
+            }
+            else if(cable_logic.entrance() == Cable.SOUTH && cable_logic.exit() == Cable.WEST) {
+                frame = 3;
+            }
+            else if(cable_logic.entrance() == Cable.WEST && cable_logic.exit() == Cable.EAST) {
+                frame = 1;
+            }
+
 
         var sprite = game.add.sprite(64 + 16, 0 + 16, 'foreground-tiles', frame);
         
