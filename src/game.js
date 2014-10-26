@@ -1,6 +1,38 @@
 // Initialize Phaser, and creates a 400x490px game
 var game = new Phaser.Game(800, 640, Phaser.AUTO, 'game_div');
 var game_state = {};
+var title_screen_state = {};
+
+// Creates a new 'main' state that wil contain the game
+title_screen_state.main = function() { };  
+title_screen_state.main.prototype = {
+    preload: function() { 
+        game.load.image('title', 'res/gfx/title-screen.png');
+    },
+    create: function() { 
+        var sprite = game.add.sprite(0, 0, 'title');
+        sprite.inputEnabled = true;
+        game.title_done = false;
+        sprite.events.onInputOver.add( function(item) {
+            if(!game.title_done){
+                game.title_tween = game.add.tween(sprite);
+                game.title_tween.to({ y: 1000.0 }, 2000, Phaser.Easing.Cubic.In).delay(500);
+                tween.start();
+
+                var tween2 = game.add.tween(sprite);
+                tween2.to({ alpha: 0.0 }, 1500, Phaser.Easing.Cubic.In).delay(400);
+                tween2.start();
+                game.title_done = true;
+             }
+        });
+    },
+    update: function() {
+        if(game.title_tween.isDone()) {
+            game.state.add('main', game_state.main);  
+            game.state.start('main'); 
+        }
+    }
+};
 
 // Creates a new 'main' state that wil contain the game
 game_state.main = function() { };  
@@ -133,5 +165,5 @@ game_state.main.prototype = {
 };
 
 // Add and start the 'main' state to start the game
-game.state.add('main', game_state.main);  
-game.state.start('main'); 
+game.state.add('title', title_screen_state.main);  
+game.state.start('title'); 
