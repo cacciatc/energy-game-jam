@@ -109,6 +109,10 @@ FOPLogic.prototype.fixLocation = function(item) {
         tween.to({ x: 1.0, y: 1.0 }, 1000, Phaser.Easing.Bounce.Out).delay(700);
         tween.start();
 
+		game.time.events.add(1000, function() {
+			game.incomingSound.play();
+		}, this);
+
         sprite.cable_logic = cable_logic;
 
         game.cable_queue.reverse();

@@ -13,6 +13,7 @@ game_state.main.prototype = {
         game.load.image('tiles', 'res/gfx/background-tiles.png');
         game.load.audio('placement', 'res/sfx/Placement.mp3');
         game.load.audio('remove', 'res/sfx/Overwrite.mp3');
+        game.load.audio('incoming', 'res/sfx/BubbleBounce.mp3');
     },
 
     create: function() { 
@@ -26,6 +27,7 @@ game_state.main.prototype = {
 
         game.placementSound = game.add.sound('placement');
         game.removeSound = game.add.sound('remove');
+        game.incomingSound = game.add.sound('incoming');
 
         // create initial tiles
         game.cable_queue = [];
