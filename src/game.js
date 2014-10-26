@@ -10,7 +10,7 @@ title_screen_state.main.prototype = {
         game.load.image('title', 'res/gfx/game-title.png');
 
         game.load.tilemap('pipecity', 'res/levels/level1.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.spritesheet('foreground-tiles', 'res/gfx/pipe-tiles.png', 32, 32);
+        game.load.spritesheet('foreground-tiles', 'res/gfx/powerlines.png', 32, 32);
         game.load.image('tiles', 'res/gfx/background-tiles.png');
         game.load.image('tiles2', 'res/gfx/background2.png');
         game.load.image('textimg', 'res/gfx/text.png');
@@ -123,19 +123,19 @@ game_state.main.prototype = {
                 frame = 4;
             }
             else if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.WEST) {
-                frame = 8;
+                frame = 15;
             }
             else if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.EAST) {
-                frame = 5;
+                frame = 12;
             }
             else if(cable_logic.entrance() == Cable.SOUTH && cable_logic.exit() == Cable.EAST) {
-                frame = 3;
+                frame = 0;
             }
             else if(cable_logic.entrance() == Cable.SOUTH && cable_logic.exit() == Cable.WEST) {
-                frame = 7;
+                frame = 3;
             }
             else if(cable_logic.entrance() == Cable.WEST && cable_logic.exit() == Cable.EAST) {
-                frame = 6;
+                frame = 1;
             }
 
             var sprite = game.add.sprite(64 + 16, 0 + (i*32) + 16, 'foreground-tiles', frame);
