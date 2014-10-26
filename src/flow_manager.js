@@ -28,6 +28,20 @@ FlowManager.prototype.rupdate = function(current, neighbor, dir, sink, playfield
 	if(cable == null) {
 		console.log(current);
 	}
+
+	if(current == sink) {
+		var sp2 = game.add.sprite((5*32) + (15*32/2), (32*7) + (3*32/2), 'game-won');
+        var t4 = game.add.tween(sp2.scale);
+
+        sp2.scale.x = 0;
+        sp2.scale.y = 0;
+        sp2.anchor.x = 0.5;
+        sp2.anchor.y = 0.5;
+
+        t4.to({ x: 1.0, y: 1.0 }, 2000, Phaser.Easing.Bounce.Out).delay(1000);
+        t4.start();
+	}
+
 	if(dir == Cable.NORTH && (cable.entrance() == Cable.SOUTH || cable.exit() == Cable.SOUTH)) {
 		cable.on();
 		isOn = true;
@@ -51,6 +65,7 @@ FlowManager.prototype.rupdate = function(current, neighbor, dir, sink, playfield
 
 	if(isOn == true) {
 		//current.frame = 2;
+
 		if(current.alph == null) {
 			current.alph = game.add.tween(current);
 	                        
@@ -114,29 +129,6 @@ FlowManager.prototype.neighbors = function(square, playfield) {
 			}
 		}
 	}
-	/*for(var row = 0; row < 11; row++) {
-		for(var col = 0; col < 17; col++) {
-			if(playfield[row] != null && playfield[row][col] == square) {
-				var north = null;
-				var south = null;
-				var west = null;
-				var east = null;
 
-				if(playfield[row-1] != null && playfield[row-1][col] != null) {
-					north = playfield[row-1][col];
-				}
-				if(playfield[row+1] != null && playfield[row+1][col] != null) {
-					south = playfield[row+1][col];
-				}
-				if(playfield[row] != null && playfield[row][col-1] != null) {
-					west = playfield[row][col-1];
-				}
-				if(playfield[row] != null && playfield[row][col+1] != null) {
-					east = playfield[row][col+1];
-				}
-				return {north:north, south:south, west:west, east:east};
-			}
-		}
-	}*/
 	return {north:null, south:null, west:null, east:null};
 };
