@@ -7,25 +7,43 @@ var title_screen_state = {};
 title_screen_state.main = function() { };  
 title_screen_state.main.prototype = {
     preload: function() { 
-        game.load.image('title', 'res/gfx/title-screen.png');
+        game.load.image('title', 'res/gfx/game-title.png');
+
+        game.load.tilemap('pipecity', 'res/levels/level1.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.spritesheet('foreground-tiles', 'res/gfx/pipe-tiles.png', 32, 32);
+        game.load.image('tiles', 'res/gfx/background-tiles.png');
+        game.load.audio('placement', 'res/sfx/Placement.mp3');
+        game.load.audio('remove', 'res/sfx/Overwrite.mp3');
+        game.load.audio('incoming', 'res/sfx/BubbleBounce.mp3');
+        game.load.spritesheet('foreground', 'res/gfx/foreground-tiles.png', 16, 16);
     },
     create: function() { 
+
         var sprite = game.add.sprite(0, 0, 'title');
         sprite.inputEnabled = true;
         game.title_done = false;
-        sprite.events.onInputOver.add( function(item) {
+        sprite.events.onInputUp.add( function(item) {
             if(!game.title_done){
+                //game.title_tween = game.add.tween(sprite);
+                //game.title_tween.to({ y: 800.0 }, 1000, Phaser.Easing.Cubic.In).delay(0);
+               // game.title_tween.start();
+
+                /*game.title_tween.onComplete.add(function () {
+                    if(game.title_done){
+                        game.state.start('main'); 
+                    }
+                });*/
+
                 game.title_tween = game.add.tween(sprite);
-                game.title_tween.to({ y: 600.0 }, 1000, Phaser.Easing.Cubic.In).delay(100);
+                game.title_tween.to({ alpha: 0.0 }, 1000, Phaser.Easing.Cubic.In).delay(0);
                 game.title_tween.start();
 
                 game.title_tween.onComplete.add(function () {
-                    game.state.start('main'); 
+                    if(game.title_done){
+                        game.state.start('main'); 
+                    }
                 });
 
-                var tween2 = game.add.tween(sprite);
-                tween2.to({ alpha: 0.0 }, 1000, Phaser.Easing.Cubic.In).delay(100);
-                tween2.start();
                 game.title_done = true;
              }
         });
@@ -41,13 +59,13 @@ game_state.main.prototype = {
 
     preload: function() { 
 		// Function called first to load all the assets
-        game.load.tilemap('pipecity', 'res/levels/level1.json', null, Phaser.Tilemap.TILED_JSON);
+       /* game.load.tilemap('pipecity', 'res/levels/level1.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.spritesheet('foreground-tiles', 'res/gfx/pipe-tiles.png', 32, 32);
         game.load.image('tiles', 'res/gfx/background-tiles.png');
         game.load.audio('placement', 'res/sfx/Placement.mp3');
         game.load.audio('remove', 'res/sfx/Overwrite.mp3');
         game.load.audio('incoming', 'res/sfx/BubbleBounce.mp3');
-        game.load.spritesheet('foreground', 'res/gfx/foreground-tiles.png', 16, 16);
+        game.load.spritesheet('foreground', 'res/gfx/foreground-tiles.png', 16, 16);*/
     },
 
     create: function() { 
@@ -166,6 +184,6 @@ game_state.main.prototype = {
 };
 
 // Add and start the 'main' state to start the game
+game.state.add('main', game_state.main); 
 game.state.add('title', title_screen_state.main); 
-game.state.add('main', game_state.main);  
 game.state.start('title'); 
