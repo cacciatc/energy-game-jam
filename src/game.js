@@ -25,13 +25,22 @@ game_state.main.prototype = {
         // create initial tiles
         game.cable_queue = [];
         game.cable_generator = new CableGenerator([
-            new Cable(Cable.NORTH, Cable.SOUTH),
-            new Cable(Cable.SOUTH, Cable.EAST),
-            new Cable(Cable.SOUTH, Cable.WEST),
-            new Cable(Cable.WEST, Cable.EAST),
-            new Cable(Cable.NORTH, Cable.WEST),
-            new Cable(Cable.NORTH, Cable.EAST)
-        ]);
+            Cable.cable1(),
+            Cable.cable2(),
+            Cable.cable6(),
+            Cable.cable5(),
+            Cable.cable1(),
+            Cable.cable1(),
+            Cable.cable2(),
+            Cable.cable5(),
+            Cable.cable3(),
+            Cable.cable4(),
+            Cable.cable2(),
+            Cable.cable6(),
+            Cable.cable6(),
+            Cable.cable5()
+
+        ].reverse());
 
         this.QUEUE_SIZE = 9;
         for(var i = 0; i < this.QUEUE_SIZE; i++) {
