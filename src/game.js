@@ -20,9 +20,11 @@ game_state.main.prototype = {
         var layer1 = map.createLayer('Background');
         layer1.resizeWorld();
 
+        game.fop_logic = new FOPLogic();
+
         // create initial tiles
-        this.cable_queue = [];
-        this.cable_generator = new CableGenerator([
+        game.cable_queue = [];
+        game.cable_generator = new CableGenerator([
             new Cable(Cable.NORTH, Cable.SOUTH),
             new Cable(Cable.SOUTH, Cable.EAST),
             new Cable(Cable.SOUTH, Cable.WEST),
@@ -33,7 +35,7 @@ game_state.main.prototype = {
 
         this.QUEUE_SIZE = 9;
         for(var i = 0; i < this.QUEUE_SIZE; i++) {
-            var cable_logic = this.cable_generator.next();
+            var cable_logic = game.cable_generator.next();
             var frame = 0;
 
             if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.SOUTH) {
@@ -56,10 +58,14 @@ game_state.main.prototype = {
             }
 
             var sprite = game.add.sprite(64 + 16, 0 + (i*32) + 16, 'foreground-tiles', frame);
+            
             sprite.scale.x = 0.0;
             sprite.scale.y = 0.0;
             sprite.anchor.x = 0.5;
             sprite.anchor.y = 0.5;
+
+            sprite.orig_x = sprite.x;
+            sprite.orig_y = sprite.y;
 
             var tween = game.add.tween(sprite.scale);
             tween.to({ x: 1.0, y: 1.0 }, 1000, Phaser.Easing.Bounce.Out).delay(500);
@@ -67,13 +73,29 @@ game_state.main.prototype = {
 
             sprite.cable_logic = cable_logic;
 
-            this.cable_queue.push(sprite);
+            if(i == this.QUEUE_SIZE - 1) {
+                sprite.inputEnabled = true;
+                sprite.input.enableDrag(true);
+
+                sprite.events.onDragStart.add(function(item) {
+                    if(game.cable_queue[8] == item){
+                        var alpha_tween = game.add.tween(item);
+                        
+                        alpha_tween.to({ alpha: 0.5 }, 100, Phaser.Easing.Circular.InOut).delay(100);
+                        alpha_tween.start();
+                    }
+                });
+                sprite.events.onDragStop.add(game.fop_logic.fixLocation);
+            }
+            game.cable_queue.push(sprite);
+
+
         }
     },
     
     update: function() {
 
-    },
+    }
 };
 
 // Add and start the 'main' state to start the game

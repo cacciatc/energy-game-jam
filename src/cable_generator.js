@@ -20,3 +20,7 @@ CableGenerator.prototype.next = function() {
 
 	return cable;
 };
+
+CableGenerator.prototype.first = function() {
+	return this._cables[this._ptr-1];
+};
