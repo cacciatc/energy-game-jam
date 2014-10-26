@@ -11,6 +11,9 @@ game_state.main.prototype = {
         game.load.tilemap('pipecity', 'res/levels/level1.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.spritesheet('foreground-tiles', 'res/gfx/pipe-tiles.png', 32, 32);
         game.load.image('tiles', 'res/gfx/background-tiles.png');
+        game.load.audio('placement', 'res/sfx/Placement.mp3');
+        game.load.audio('remove', 'res/sfx/Overwrite.mp3');
+        game.load.audio('incoming', 'res/sfx/BubbleBounce.mp3');
     },
 
     create: function() { 
@@ -21,6 +24,10 @@ game_state.main.prototype = {
         layer1.resizeWorld();
 
         game.fop_logic = new FOPLogic();
+
+        game.placementSound = game.add.sound('placement');
+        game.removeSound = game.add.sound('remove');
+        game.incomingSound = game.add.sound('incoming');
 
         // create initial tiles
         game.cable_queue = [];
@@ -41,6 +48,8 @@ game_state.main.prototype = {
             Cable.cable5()
 
         ].reverse());
+
+        game.play_field = [];
 
         this.QUEUE_SIZE = 9;
         for(var i = 0; i < this.QUEUE_SIZE; i++) {
