@@ -28,15 +28,6 @@ title_screen_state.main.prototype = {
         game.title_done = false;
         sprite.events.onInputUp.add( function(item) {
             if(!game.title_done){
-                //game.title_tween = game.add.tween(sprite);
-                //game.title_tween.to({ y: 800.0 }, 1000, Phaser.Easing.Cubic.In).delay(0);
-               // game.title_tween.start();
-
-                /*game.title_tween.onComplete.add(function () {
-                    if(game.title_done){
-                        game.state.start('main'); 
-                    }
-                });*/
 
                 game.title_tween = game.add.tween(sprite);
                 game.title_tween.to({ alpha: 0.0 }, 1000, Phaser.Easing.Cubic.In).delay(0);
@@ -62,14 +53,6 @@ game_state.main = function() { };
 game_state.main.prototype = {
 
     preload: function() { 
-		// Function called first to load all the assets
-       /* game.load.tilemap('pipecity', 'res/levels/level1.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.spritesheet('foreground-tiles', 'res/gfx/pipe-tiles.png', 32, 32);
-        game.load.image('tiles', 'res/gfx/background-tiles.png');
-        game.load.audio('placement', 'res/sfx/Placement.mp3');
-        game.load.audio('remove', 'res/sfx/Overwrite.mp3');
-        game.load.audio('incoming', 'res/sfx/BubbleBounce.mp3');
-        game.load.spritesheet('foreground', 'res/gfx/foreground-tiles.png', 16, 16);*/
     },
 
     create: function() { 
@@ -200,11 +183,6 @@ game_state.main.prototype = {
         game.play_field[0][0] = game.source;
         game.play_field[10][16] = game.sink;
 
-        //var text = "A recent storm has disabled the power lines. Connect the hydroelectric source to the home to win.";
-        //var style = { font: "21px NESFont", fill: "#ffa39960", align: "center" };
-
-        //var t = game.add.text(32 * 6, 32, text, style);
-
         var sp = game.add.sprite(32*6, 32, 'textimg');
          game.onetime = false;
         this.jumpKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -223,21 +201,6 @@ game_state.main.prototype = {
             t4.start();
         }
         }, null);
-        /*this.game.input.onDown.add(function() {
-               if(!game.onetime){
-                   game.ontime = true;
-            var sp2 = game.add.sprite((5*32) + (15*32/2), (32*7) + (3*32/2), 'game-won');
-            var t4 = game.add.tween(sp2.scale);
-
-            sp2.scale.x = 0;
-            sp2.scale.y = 0;
-            sp2.anchor.x = 0.5;
-            sp2.anchor.y = 0.5;
-
-            t4.to({ x: 1.0, y: 1.0 }, 2000, Phaser.Easing.Bounce.Out).delay(1000);
-            t4.start();
-             }
-        }, null);*/
     },
 
     processKey: function() {
