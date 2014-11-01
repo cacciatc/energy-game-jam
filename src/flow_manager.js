@@ -1,134 +1,74 @@
 function FlowManager() {
-
-};
-
-
-FlowManager.prototype.update = function(source, sink, playfield) {
-	if(source == sink) {
-		return;
-	}
-	var neighbors = this.neighbors(source, playfield);
-	
-	this.rupdate(neighbors.north, source, Cable.NORTH, sink, playfield);
-	this.rupdate(neighbors.south, source, Cable.SOUTH, sink, playfield);
-	this.rupdate(neighbors.east, source, Cable.EAST, sink, playfield);
-	this.rupdate(neighbors.west, source, Cable.WEST, sink, playfield);
-
-	// if sink, game won!!!
-};
-
-FlowManager.prototype.rupdate = function(current, neighbor, dir, sink, playfield) {
-	if(current == null) {
-		return;
-	}
-
-	var cable = current.cable_logic;
-	var isOn = false;
-
-	if(cable == null) {
-		console.log(current);
-	}
-
-	if(current == sink) {
-		var sp2 = game.add.sprite((5*32) + (15*32/2), (32*7) + (3*32/2), 'game-won');
-        var t4 = game.add.tween(sp2.scale);
-
-        sp2.scale.x = 0;
-        sp2.scale.y = 0;
-        sp2.anchor.x = 0.5;
-        sp2.anchor.y = 0.5;
-
-        t4.to({ x: 1.0, y: 1.0 }, 2000, Phaser.Easing.Bounce.Out).delay(1000);
-        t4.start();
-	}
-
-	if(dir == Cable.NORTH && (cable.entrance() == Cable.SOUTH || cable.exit() == Cable.SOUTH)) {
-		cable.on();
-		isOn = true;
-	}
-	/* south dir */
-	else if(dir == Cable.SOUTH && (cable.entrance() == Cable.NORTH || cable.exit() == NORTH)) {
-		cable.on();
-		isOn = true;
-	} 
-	else if(dir == Cable.EAST && (cable.entrance() == Cable.WEST || cable.exit() == Cable.WEST)) {
-		cable.on();
-		isOn = true;
-	}
-	else if(dir == Cable.WEST && (cable.entrance() == Cable.EAST || cable.exit() == Cable.EAST)) {
-		cable.on();
-		isOn = true;
-	}
-	else {
-		cable.off();
-	}
-
-	if(isOn == true) {
-		//current.frame = 2;
-
-		if(current.alph == null) {
-			current.alph = game.add.tween(current);
-	                        
-	       	current.alph.to({ alpha: 0.5 }, 500, Phaser.Easing.Circular.InOut);
-	       	current.alph.start();
-
-	       	current.alph.onComplete.add(function (item) {
-	       		current.alph2 = game.add.tween(item);
-	       		current.alph2.to({ alpha: 1.0 }, 500, Phaser.Easing.Circular.InOut);
-	       		current.alph2.onComplete.add(function (item) {
-	       			item.alph.start();
-	       		});
-	       		current.alph2.start();
-	       	});
-    	}
-
-		var neighbors = this.neighbors(current, playfield);
-	
-		if(cable.exit() == Cable.NORTH || cable.entrance() == Cable.NORTH){
-				if(neighbors.north != null && neighbors.north != neighbor)
-				this.rupdate(neighbors.north, current, Cable.NORTH, sink, playfield);
+	this.callIfNotNull = function(fn, item) {
+		if(fn != null) {
+			fn(item);
 		}
-		if(cable.exit() == Cable.SOUTH || cable.entrance() == Cable.SOUTH){
-				if(neighbors.south != null && neighbors.south != neighbor)
-				this.rupdate(neighbors.south, current, Cable.SOUTH, sink, playfield);
-		}
-		if(cable.exit() == Cable.EAST || cable.entrance() == Cable.EAST){
-				if(neighbors.east != null && neighbors.east != neighbor)
-				this.rupdate(neighbors.east, current, Cable.EAST, sink, playfield);
-		}
-		if(cable.exit() == Cable.WEST || cable.entrance() == Cable.WEST){
-				if(neighbors.west != null && neighbors.west != neighbor)
-				this.rupdate(neighbors.west, current, Cable.WEST, sink, playfield);
-		}
-	}
-};
+	};
 
-FlowManager.prototype.neighbors = function(square, playfield) {
+	this.rupdate = function(current, neighbor, dir, playfield) {
+		if(current == null) {
+			return;
+		}
+				console.log("Square: " + current.x + ", " + current.y + " was " + current.cable_logic.state());
 
-	for(var row = 0; row < playfield.length; row++) {
-		for(var col = 0; col < playfield[row].length; col++) {
-			if(playfield[row] != null && playfield[row][col] == square) {
-				var north = null;
-				var south = null;
-				var west = null;
-				var east = null;
+		var cable = current.cable_logic;
+		var isOn = false;
 
-				if(playfield[row-1] != null && playfield[row-1][col] != null) {
-					north = playfield[row-1][col];
-				}
-				if(playfield[row+1] != null && playfield[row+1][col] != null) {
-					south = playfield[row+1][col];
-				}
-				if(playfield[row] != null && playfield[row][col-1] != null) {
-					west = playfield[row][col-1];
-				}
-				if(playfield[row] != null && playfield[row][col+1] != null) {
-					east = playfield[row][col+1];
-				}
-				return {north:north, south:south, west:west, east:east};
+		if(dir == Cable.NORTH && (cable.entrance() == Cable.SOUTH || cable.exit() == Cable.SOUTH)) {
+			cable.on();
+			isOn = true;
+		}
+		else if(dir == Cable.SOUTH && (cable.entrance() == Cable.NORTH || cable.exit() == Cable.NORTH)) {
+			cable.on();
+			isOn = true;
+		} 
+		else if(dir == Cable.EAST && (cable.entrance() == Cable.WEST || cable.exit() == Cable.WEST)) {
+			cable.on();
+			isOn = true;
+		}
+		else if(dir == Cable.WEST && (cable.entrance() == Cable.EAST || cable.exit() == Cable.EAST)) {
+			cable.on();
+			isOn = true;
+		}
+
+		if(isOn == true) {
+			this.callIfNotNull(current.onCallback, current);
+
+			var neighbors = playfield.neighbors(current);
+		
+			if(cable.exit() == Cable.NORTH || cable.entrance() == Cable.NORTH){
+				if(neighbors.north != null && neighbors.north.cable_logic.state() != true)//neighbors.north != neighbor)
+					this.rupdate(neighbors.north, current, Cable.NORTH, playfield);
+			}
+			if(cable.exit() == Cable.SOUTH || cable.entrance() == Cable.SOUTH){
+				if(neighbors.south != null && neighbors.south.cable_logic.state() != true)//neighbors.south != neighbor)
+					this.rupdate(neighbors.south, current, Cable.SOUTH, playfield);
+			}
+			if(cable.exit() == Cable.EAST || cable.entrance() == Cable.EAST){
+				if(neighbors.east != null && neighbors.east.cable_logic.state() != true)//neighbors.east != neighbor)
+					this.rupdate(neighbors.east, current, Cable.EAST, playfield);
+			}
+			if(cable.exit() == Cable.WEST || cable.entrance() == Cable.WEST){
+				if(neighbors.west != null && neighbors.west.cable_logic.state() != true)//neighbors.west != neighbor)
+					this.rupdate(neighbors.west, current, Cable.WEST, playfield);
 			}
 		}
+	};
+};
+
+
+FlowManager.prototype.update = function(source, playfield) {
+	if(source == null) {
+		return;
 	}
 
-	return {north:null, south:null, west:null, east:null};
+	source.cable_logic.on();
+	this.callIfNotNull(source.onCallback, source);
+
+	var neighbors = playfield.neighbors(source);
+	
+	this.rupdate(neighbors.north, source, Cable.NORTH, playfield);
+	this.rupdate(neighbors.south, source, Cable.SOUTH, playfield);
+	this.rupdate(neighbors.east,  source, Cable.EAST, playfield);
+	this.rupdate(neighbors.west,  source, Cable.WEST, playfield);
 };

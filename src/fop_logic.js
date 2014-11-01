@@ -23,15 +23,16 @@ FOPLogic.prototype.fixLocation = function(item) {
 		var col2 = Math.round((item.x + 16 - x) / 32) - 1;
 		var row2 = Math.round((item.y + 16 - y) / 32) - 1; 
 
-		game.play_field[row2] = game.play_field[row2] || [];
+		if(game.play_field.get(col2, row2) != null) {
+			var old = game.play_field.set(col2, row2, item);
 
-		if(game.play_field[row2][col2] != null) {
-			game.play_field[row2][col2].destroy();
-			game.play_field[row2][col2] = item;
+			old.cable_logic.off();
+			old.destroy();
+
 			game.removeSound.play();
 		}
 		else {
-			game.play_field[row2][col2] = item;
+			game.play_field.set(col2, row2, item);
 			game.placementSound.play();
 		}
 
@@ -101,13 +102,7 @@ FOPLogic.prototype.fixLocation = function(item) {
 
         var sprite = game.add.sprite(64 + 16, 0 + 16, 'foreground-tiles', frame);
         
-        sprite.scale.x = 0.0;
-        sprite.scale.y = 0.0;
-        sprite.anchor.x = 0.5;
-        sprite.anchor.y = 0.5;
-
-        sprite.orig_x = sprite.x;
-        sprite.orig_y = sprite.y;
+        CableSprite.configure(sprite);
 
         var tween = game.add.tween(sprite.scale);
         tween.to({ x: 1.0, y: 1.0 }, 1000, Phaser.Easing.Bounce.Out).delay(700);
@@ -123,7 +118,16 @@ FOPLogic.prototype.fixLocation = function(item) {
         game.cable_queue.push(sprite);
         game.cable_queue.reverse();
 
-        game.flow_manager.update(game.source, game.sink, game.play_field);
+        game.play_field.forEach(function(square) {
+        	if(square.alph2 != null)
+        	square.alph2.stop();
+        	if(square.alph != null)
+        	square.alph.stop();
+        	square.alpha = 1.0;
+        	square.cable_logic.off();
+        });
+
+        game.flow_manager.update(game.source, game.play_field);
 	}
 	else {
 		var tween = game.add.tween(item);

@@ -97,7 +97,7 @@ game_state.main.prototype = {
 
         ].reverse());
 
-        game.play_field = [];
+        game.play_field = new Playfield(11,17);
 
         this.QUEUE_SIZE = 9;
         for(var i = 0; i < this.QUEUE_SIZE; i++) {
@@ -125,19 +125,28 @@ game_state.main.prototype = {
 
             var sprite = game.add.sprite(64 + 16, 0 + (i*32) + 16, 'foreground-tiles', frame);
             
-            sprite.scale.x = 0.0;
-            sprite.scale.y = 0.0;
-            sprite.anchor.x = 0.5;
-            sprite.anchor.y = 0.5;
-
-            sprite.orig_x = sprite.x;
-            sprite.orig_y = sprite.y;
+            CableSprite.configure(sprite);
 
             var tween = game.add.tween(sprite.scale);
             tween.to({ x: 1.0, y: 1.0 }, 1000, Phaser.Easing.Bounce.Out).delay(1000);
             tween.start();
 
             sprite.cable_logic = cable_logic;
+            sprite.onCallback = function (sprite) {
+                sprite.alph = game.add.tween(sprite);
+                                
+                sprite.alph.to({ alpha: 0.5 }, 500, Phaser.Easing.Circular.InOut);
+                sprite.alph.start();
+
+                sprite.alph.onComplete.add(function (item) {
+                    sprite.alph2 = game.add.tween(item);
+                    sprite.alph2.to({ alpha: 1.0 }, 500, Phaser.Easing.Circular.InOut);
+                    sprite.alph2.onComplete.add(function (item) {
+                        item.alph.start();
+                    });
+                    sprite.alph2.start();
+                });
+            };
 
             if(i == this.QUEUE_SIZE - 1) {
                 sprite.inputEnabled = true;
@@ -159,6 +168,7 @@ game_state.main.prototype = {
         // add source and sink
         game.source = game.add.sprite(6 * 32, 5 * 32, 'foreground', 1);
         game.source.cable_logic = new Cable(Cable.SOUTH, Cable.EAST);
+
         game.sink = game.add.sprite(6 * 32 + (16 * 32), 5 * 32 + (11 * 32), 'foreground', 0);
         game.sink.cable_logic = new Cable(Cable.NORTH, Cable.WEST);
 
@@ -174,17 +184,11 @@ game_state.main.prototype = {
         alpha_tween4.to({ alpha: 1.0 }, 1000, Phaser.Easing.Circular.InOut).delay(800);
         alpha_tween4.start();
 
-        for(var row = 0; row < 11; row++) {
-            game.play_field[row] = [];
-            for(var col = 0; col < 17; col++) {
-                game.play_field[row][col] = null;
-            }
-        }
-        game.play_field[0][0] = game.source;
-        game.play_field[10][16] = game.sink;
+        game.play_field.set(0, 0, game.source);
+        game.play_field.set(10, 16, game.sink);
 
         var sp = game.add.sprite(32*6, 32, 'textimg');
-         game.onetime = false;
+        game.onetime = false;
         this.jumpKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.jumpKey.onDown.add(function() {
                 if(!game.onetime){
@@ -216,7 +220,7 @@ game_state.main.prototype = {
         t4.start();
     },
     
-    update: function() {0
+    update: function() {
 
     }
 };
