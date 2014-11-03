@@ -3,25 +3,25 @@ function FOPLogic() {
 };
 
 FOPLogic.prototype.fixLocation = function(item) {
-	var x = 6 * 32;
-	var y = 5 * 32;
+	var x = 6 * CableSprite.width;
+	var y = 5 * CableSprite.height;
 
-	var width = 17 * 32;
-	var height = 12 * 32;
+	var width = 17 * CableSprite.width;
+	var height = 12 * CableSprite.height;
 
 	if(item.x >= x && item.x <= x + width &&
 		item.y >= y && item.y <= y + height) {
 
-		var col = Math.round((item.x + 16) / 32);
-	var row = Math.round((item.y + 16) / 32);
+		var col = Math.round((item.x + 16) / CableSprite.width);
+	var row = Math.round((item.y + 16) / CableSprite.height);
 
 		//nearest x
-		var item_x = (col * 32) - 16;
+		var item_x = (col * CableSprite.width) - 16;
 		//nearest y
-		var item_y = (row * 32) - 16;
+		var item_y = (row * CableSprite.height) - 16;
 
-		var col2 = Math.round((item.x + 16 - x) / 32) - 1;
-		var row2 = Math.round((item.y + 16 - y) / 32) - 1;
+		var col2 = Math.round((item.x + 16 - x) / CableSprite.width) - 1;
+		var row2 = Math.round((item.y + 16 - y) / CableSprite.height) - 1;
 
 		item.row = col2;
 		item.col = row2;
@@ -88,7 +88,7 @@ FOPLogic.prototype.fixLocation = function(item) {
 
 		/* if the sink is on, then the level is over */
 		if(game.sink.cable_logic.state() == true) {
-			var sp2 = game.add.sprite((5*32) + (15*32/2), (32*7) + (3*32/2), 'game-won');
+			var sp2 = game.add.sprite((5*CableSprite.width) + (15*CableSprite.width/2), (CableSprite.height*7) + (3*CableSprite.height/2), 'game-won');
 			var t4 = game.add.tween(sp2.scale);
 
 			sp2.scale.x = 0;

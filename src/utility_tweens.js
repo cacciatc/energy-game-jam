@@ -17,31 +17,31 @@ UtilityTweens.returnCable = function(sprite) {
 	}, 500, Phaser.Easing.Circular.InOut)
 	.delay(100);
 
-    trans_tween.start();
-    alpha_tween.start();
+	trans_tween.start();
+	alpha_tween.start();
 };
 
 UtilityTweens.cableToNormalSize = function(sprite) {
 	var tween = game.add.tween(sprite.scale);
-    
-    tween.to({ 
-    	x: 1.0, 
-    	y: 1.0 
-    }, 1000, Phaser.Easing.Bounce.Out)
-    .delay(700);
 
-    tween.start();
+	tween.to({ 
+		x: 1.0, 
+		y: 1.0 
+	}, 1000, Phaser.Easing.Bounce.Out)
+	.delay(700);
+
+	tween.start();
 };
 
 UtilityTweens.cableSelected = function(sprite) {
 	var tween = game.add.tween(sprite);
-                    
-    tween.to({ 
-    	alpha: 0.5 
-    }, 100, Phaser.Easing.Circular.InOut)
-    .delay(100);
 
-    tween.start();
+	tween.to({ 
+		alpha: 0.5 
+	}, 100, Phaser.Easing.Circular.InOut)
+	.delay(100);
+
+	tween.start();
 };
 
 UtilityTweens.snapToGrid = function(sprite, x, y) {
@@ -79,11 +79,22 @@ UtilityTweens.cableUnselected = function(sprite) {
 
 UtilityTweens.fadeInCable = function(sprite) {
 	var tween = game.add.tween(sprite);
-                        
-    tween.to({ 
-    	alpha: 1.0 
-    }, 1000, Phaser.Easing.Circular.InOut)
-    .delay(800);
 
-    tween.start();
+	tween.to({ 
+		alpha: 1.0 
+	}, 1000, Phaser.Easing.Circular.InOut)
+	.delay(800);
+
+	tween.start();
 };
+
+UtilityTweens.fadeInLayer = function(layer) {
+	var tween = game.add.tween(layer);
+
+	tween.to({ 
+		alpha: 1.0 
+	}, 400, Phaser.Easing.Circular.InOut)
+	.delay(0);
+	
+	tween.start();
+}
