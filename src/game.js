@@ -4,10 +4,10 @@ var game_state = {};
 
 // Creates a new 'main' state that wil contain the game
 game_state.main = function() { };  
+
 game_state.main.prototype = {
 
-    preload: function() { 
-    },
+    preload: function() { },
 
     create: function() {
         /* create tilesets */
@@ -87,9 +87,7 @@ game_state.main.prototype = {
         game.play_field.set(16, 11, game.sink);
     },
 
-    update: function() {
-
-    }
+    update: function() { }
 };
 
 // Add and start the 'main' state to start the game
