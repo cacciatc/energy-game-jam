@@ -9,7 +9,6 @@ function FlowManager() {
 		if(current == null) {
 			return;
 		}
-				console.log("Square: " + current.x + ", " + current.y + " was " + current.cable_logic.state());
 
 		var cable = current.cable_logic;
 		var isOn = false;
@@ -31,25 +30,27 @@ function FlowManager() {
 			isOn = true;
 		}
 
+		console.log("Square: " + current.x + ", " + current.y + " was " + current.cable_logic.state());
+
 		if(isOn == true) {
 			this.callIfNotNull(current.onCallback, current);
 
 			var neighbors = playfield.neighbors(current);
 		
 			if(cable.exit() == Cable.NORTH || cable.entrance() == Cable.NORTH){
-				if(neighbors.north != null && neighbors.north.cable_logic.state() != true)//neighbors.north != neighbor)
+				if(neighbors.north != null && neighbors.north != neighbor)
 					this.rupdate(neighbors.north, current, Cable.NORTH, playfield);
 			}
 			if(cable.exit() == Cable.SOUTH || cable.entrance() == Cable.SOUTH){
-				if(neighbors.south != null && neighbors.south.cable_logic.state() != true)//neighbors.south != neighbor)
+				if(neighbors.south != null && neighbors.south != neighbor)
 					this.rupdate(neighbors.south, current, Cable.SOUTH, playfield);
 			}
 			if(cable.exit() == Cable.EAST || cable.entrance() == Cable.EAST){
-				if(neighbors.east != null && neighbors.east.cable_logic.state() != true)//neighbors.east != neighbor)
+				if(neighbors.east != null && neighbors.east != neighbor)
 					this.rupdate(neighbors.east, current, Cable.EAST, playfield);
 			}
 			if(cable.exit() == Cable.WEST || cable.entrance() == Cable.WEST){
-				if(neighbors.west != null && neighbors.west.cable_logic.state() != true)//neighbors.west != neighbor)
+				if(neighbors.west != null && neighbors.west != neighbor)
 					this.rupdate(neighbors.west, current, Cable.WEST, playfield);
 			}
 		}
@@ -61,7 +62,7 @@ FlowManager.prototype.update = function(source, playfield) {
 	if(source == null) {
 		return;
 	}
-
+	console.log("Starting new flow update!");
 	source.cable_logic.on();
 	this.callIfNotNull(source.onCallback, source);
 
@@ -71,4 +72,5 @@ FlowManager.prototype.update = function(source, playfield) {
 	this.rupdate(neighbors.south, source, Cable.SOUTH, playfield);
 	this.rupdate(neighbors.east,  source, Cable.EAST, playfield);
 	this.rupdate(neighbors.west,  source, Cable.WEST, playfield);
+	console.log("Ending flow update!");
 };

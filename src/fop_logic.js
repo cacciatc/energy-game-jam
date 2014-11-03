@@ -36,107 +36,54 @@ FOPLogic.prototype.fixLocation = function(item) {
 			game.placementSound.play();
 		}
 
-		var tween = game.add.tween(item);
-		var tween2 = game.add.tween(item);
-		var tween3 = game.add.tween(item.scale);
-
-		tween2.to({ x: item_x, y: item_y }, 100, Phaser.Easing.Bounce.Out);
-		tween2.start();
-
-		tween3.to({ x: 1.2, y: 1.2 }, 300, Phaser.Easing.Cubic.InOut, false, 0, 0, true);
-		tween3.start();
-
-		tween.to({ alpha: 1.0 }, 200, Phaser.Easing.Circular.InOut).delay(100);
-		tween.start();
+		UtilityTweens.snapToGrid(item, item_x, item_y);
+		UtilityTweens.cableGrow(item);
+		UtilityTweens.cableUnselected(item);
 
 		item.inputEnabled = false;
-        item.input.enableDrag(false);
+		item.input.enableDrag(false);
 
 		// tween queue down
 		game.cable_queue.pop();
 
 		for(var j = game.cable_queue.length-1; j >= 0; j--) {
 			var t = game.add.tween(game.cable_queue[j]);
-        	t.to({ y: game.cable_queue[j].y + 32 }, 500, Phaser.Easing.Bounce.Out).delay(500 - (j*50));
-       		t.start();
+			t.to({ y: game.cable_queue[j].y + 32 }, 500, Phaser.Easing.Bounce.Out).delay(500 - (j*50));
+			t.start();
 
-        	game.cable_queue[j].orig_y = game.cable_queue[j].y + 32;
+			game.cable_queue[j].orig_y = game.cable_queue[j].y + 32;
 		}
 
 		var next_cable = game.cable_queue[game.cable_queue.length - 1];
-		next_cable.inputEnabled = true;
-        next_cable.input.enableDrag(true);
+		InputConfig.setupTouch(next_cable);
 
-        next_cable.events.onDragStart.add(function(item) {
-	       	 if(game.cable_queue[game.cable_queue.length-1] == item){
-                var alpha_tween = game.add.tween(item);
-                    
-                alpha_tween.to({ alpha: 0.5 }, 100, Phaser.Easing.Circular.InOut).delay(100);
-                alpha_tween.start();
-            }
-        });
-        next_cable.events.onDragStop.add(game.fop_logic.fixLocation);
+		var cable_logic = game.cable_generator.next();
+		
+		var sprite = CableSprite.create(cable_logic, 64 + 16, 0 + 16);
 
-        var cable_logic = game.cable_generator.next();
-        var frame = 0;
-
-        if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.SOUTH) {
-                frame = 4;
-            }
-            else if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.WEST) {
-                frame = 15;
-            }
-            else if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.EAST) {
-                frame = 12;
-            }
-            else if(cable_logic.entrance() == Cable.SOUTH && cable_logic.exit() == Cable.EAST) {
-                frame = 0;
-            }
-            else if(cable_logic.entrance() == Cable.SOUTH && cable_logic.exit() == Cable.WEST) {
-                frame = 3;
-            }
-            else if(cable_logic.entrance() == Cable.WEST && cable_logic.exit() == Cable.EAST) {
-                frame = 1;
-            }
-
-
-        var sprite = game.add.sprite(64 + 16, 0 + 16, 'foreground-tiles', frame);
-        
-        CableSprite.configure(sprite);
-
-        var tween = game.add.tween(sprite.scale);
-        tween.to({ x: 1.0, y: 1.0 }, 1000, Phaser.Easing.Bounce.Out).delay(700);
-        tween.start();
+		UtilityTweens.cableToNormalSize(sprite);
 
 		game.time.events.add(1000, function() {
 			game.incomingSound.play();
 		}, this);
 
-        sprite.cable_logic = cable_logic;
+		game.cable_queue.reverse();
+		game.cable_queue.push(sprite);
+		game.cable_queue.reverse();
 
-        game.cable_queue.reverse();
-        game.cable_queue.push(sprite);
-        game.cable_queue.reverse();
-
-        game.play_field.forEach(function(square) {
-        	if(square.alph2 != null)
+		game.play_field.forEach(function(square) {
+        	/*if(square.alph2 != null)
         	square.alph2.stop();
         	if(square.alph != null)
         	square.alph.stop();
-        	square.alpha = 1.0;
+        	square.alpha = 1.0;*/
         	square.cable_logic.off();
+        	square.alpha = 1.0;
         });
 
-        game.flow_manager.update(game.source, game.play_field);
+		game.flow_manager.update(game.source, game.play_field);
 	}
 	else {
-		var tween = game.add.tween(item);
-		var tween2 = game.add.tween(item);
-
-		tween.to({ x: item.orig_x, y: item.orig_y }, 1000, Phaser.Easing.Circular.Out).delay(100);
-		tween2.to({ alpha: 1.0 }, 500, Phaser.Easing.Circular.InOut).delay(100);
-
-        tween.start();
-        tween2.start();
+		UtilityTweens.returnCable(item);
 	}
 };

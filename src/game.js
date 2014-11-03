@@ -70,7 +70,6 @@ game_state.main.prototype = {
         alpha_tween2.start();
 
         game.fop_logic = new FOPLogic();
-
         game.flow_manager = new FlowManager();
 
         game.placementSound = game.add.sound('placement');
@@ -102,38 +101,13 @@ game_state.main.prototype = {
         this.QUEUE_SIZE = 9;
         for(var i = 0; i < this.QUEUE_SIZE; i++) {
             var cable_logic = game.cable_generator.next();
-            var frame = 0;
-
-            if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.SOUTH) {
-                frame = 4;
-            }
-            else if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.WEST) {
-                frame = 15;
-            }
-            else if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.EAST) {
-                frame = 12;
-            }
-            else if(cable_logic.entrance() == Cable.SOUTH && cable_logic.exit() == Cable.EAST) {
-                frame = 0;
-            }
-            else if(cable_logic.entrance() == Cable.SOUTH && cable_logic.exit() == Cable.WEST) {
-                frame = 3;
-            }
-            else if(cable_logic.entrance() == Cable.WEST && cable_logic.exit() == Cable.EAST) {
-                frame = 1;
-            }
-
-            var sprite = game.add.sprite(64 + 16, 0 + (i*32) + 16, 'foreground-tiles', frame);
             
-            CableSprite.configure(sprite);
+            var sprite = CableSprite.create(cable_logic, 64 + 16, 0 + (i*32) + 16);
 
-            var tween = game.add.tween(sprite.scale);
-            tween.to({ x: 1.0, y: 1.0 }, 1000, Phaser.Easing.Bounce.Out).delay(1000);
-            tween.start();
+            UtilityTweens.cableToNormalSize(sprite);
 
-            sprite.cable_logic = cable_logic;
             sprite.onCallback = function (sprite) {
-                sprite.alph = game.add.tween(sprite);
+                /*sprite.alph = game.add.tween(sprite);
                                 
                 sprite.alph.to({ alpha: 0.5 }, 500, Phaser.Easing.Circular.InOut);
                 sprite.alph.start();
@@ -145,23 +119,11 @@ game_state.main.prototype = {
                         item.alph.start();
                     });
                     sprite.alph2.start();
-                });
+                });*/
+                sprite.alpha = 0.5;
             };
 
-            if(i == this.QUEUE_SIZE - 1) {
-                sprite.inputEnabled = true;
-                sprite.input.enableDrag(true);
-
-                sprite.events.onDragStart.add(function(item) {
-                    if(game.cable_queue[8] == item){
-                        var alpha_tween = game.add.tween(item);
-                        
-                        alpha_tween.to({ alpha: 0.5 }, 100, Phaser.Easing.Circular.InOut).delay(100);
-                        alpha_tween.start();
-                    }
-                });
-                sprite.events.onDragStop.add(game.fop_logic.fixLocation);
-            }
+            InputConfig.setupTouch(sprite);
             game.cable_queue.push(sprite);
         }
 
