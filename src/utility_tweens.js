@@ -76,3 +76,14 @@ UtilityTweens.cableUnselected = function(sprite) {
 
 	tween.start();
 };
+
+UtilityTweens.fadeInCable = function(sprite) {
+	var tween = game.add.tween(sprite);
+                        
+    tween.to({ 
+    	alpha: 1.0 
+    }, 1000, Phaser.Easing.Circular.InOut)
+    .delay(800);
+
+    tween.start();
+};

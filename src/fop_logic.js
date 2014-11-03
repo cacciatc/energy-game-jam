@@ -13,7 +13,7 @@ FOPLogic.prototype.fixLocation = function(item) {
 		item.y >= y && item.y <= y + height) {
 
 		var col = Math.round((item.x + 16) / 32);
-		var row = Math.round((item.y + 16) / 32);
+	var row = Math.round((item.y + 16) / 32);
 
 		//nearest x
 		var item_x = (col * 32) - 16;
@@ -21,7 +21,10 @@ FOPLogic.prototype.fixLocation = function(item) {
 		var item_y = (row * 32) - 16;
 
 		var col2 = Math.round((item.x + 16 - x) / 32) - 1;
-		var row2 = Math.round((item.y + 16 - y) / 32) - 1; 
+		var row2 = Math.round((item.y + 16 - y) / 32) - 1;
+
+		item.row = col2;
+		item.col = row2;
 
 		if(game.play_field.get(col2, row2) != null) {
 			var old = game.play_field.set(col2, row2, item);
@@ -76,12 +79,26 @@ FOPLogic.prototype.fixLocation = function(item) {
         	square.alph2.stop();
         	if(square.alph != null)
         	square.alph.stop();
-        	square.alpha = 1.0;*/
-        	square.cable_logic.off();
-        	square.alpha = 1.0;
-        });
+        square.alpha = 1.0;*/
+        square.cable_logic.off();
+        square.alpha = 1.0;
+    });
 
 		game.flow_manager.update(game.source, game.play_field);
+
+		/* if the sink is on, then the level is over */
+		if(game.sink.cable_logic.state() == true) {
+			var sp2 = game.add.sprite((5*32) + (15*32/2), (32*7) + (3*32/2), 'game-won');
+			var t4 = game.add.tween(sp2.scale);
+
+			sp2.scale.x = 0;
+			sp2.scale.y = 0;
+			sp2.anchor.x = 0.5;
+			sp2.anchor.y = 0.5;
+
+			t4.to({ x: 1.0, y: 1.0 }, 2000, Phaser.Easing.Bounce.Out).delay(0);
+			t4.start();
+		}
 	}
 	else {
 		UtilityTweens.returnCable(item);

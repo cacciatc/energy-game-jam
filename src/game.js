@@ -96,7 +96,7 @@ game_state.main.prototype = {
 
         ].reverse());
 
-        game.play_field = new Playfield(11,17);
+        game.play_field = new Playfield(17, 12);
 
         this.QUEUE_SIZE = 9;
         for(var i = 0; i < this.QUEUE_SIZE; i++) {
@@ -120,7 +120,6 @@ game_state.main.prototype = {
                     });
                     sprite.alph2.start();
                 });*/
-                sprite.alpha = 0.5;
             };
 
             InputConfig.setupTouch(sprite);
@@ -136,52 +135,14 @@ game_state.main.prototype = {
 
         game.source.alpha = 0;
         game.sink.alpha = 0;
-        var alpha_tween3 = game.add.tween(game.source);
-                        
-        alpha_tween3.to({ alpha: 1.0 }, 1000, Phaser.Easing.Circular.InOut).delay(800);
-        alpha_tween3.start();
-
-        var alpha_tween4 = game.add.tween(game.sink);
-                        
-        alpha_tween4.to({ alpha: 1.0 }, 1000, Phaser.Easing.Circular.InOut).delay(800);
-        alpha_tween4.start();
+        
+        UtilityTweens.fadeInCable(game.source);
+        UtilityTweens.fadeInCable(game.sink);
 
         game.play_field.set(0, 0, game.source);
-        game.play_field.set(10, 16, game.sink);
-
-        var sp = game.add.sprite(32*6, 32, 'textimg');
-        game.onetime = false;
-        this.jumpKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        this.jumpKey.onDown.add(function() {
-                if(!game.onetime){
-                    game.ontime = true;
-            var sp2 = game.add.sprite((5*32) + (15*32/2), (32*7) + (3*32/2), 'game-won');
-            var t4 = game.add.tween(sp2.scale);
-
-            sp2.scale.x = 0;
-            sp2.scale.y = 0;
-            sp2.anchor.x = 0.5;
-            sp2.anchor.y = 0.5;
-
-            t4.to({ x: 1.0, y: 1.0 }, 2000, Phaser.Easing.Bounce.Out).delay(100);
-            t4.start();
-        }
-        }, null);
+        game.play_field.set(16, 11, game.sink);
     },
 
-    processKey: function() {
-        var sp2 = game.add.sprite((5*32) + (15*32/2), (32*7) + (3*32/2), 'game-won');
-        var t4 = game.add.tween(sp2.scale);
-
-        sp2.scale.x = 0;
-        sp2.scale.y = 0;
-        sp2.anchor.x = 0.5;
-        sp2.anchor.y = 0.5;
-
-        t4.to({ x: 1.0, y: 1.0 }, 2000, Phaser.Easing.Bounce.Out).delay(1000);
-        t4.start();
-    },
-    
     update: function() {
 
     }
