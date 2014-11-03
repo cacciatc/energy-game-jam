@@ -30,10 +30,10 @@ function FlowManager() {
 			isOn = true;
 		}
 
-		console.log("Square: " + current.row + ", " + current.col + " was " + current.cable_logic.state());
+		/*console.log("Square: " + current.row + ", " + current.col + " was " + current.cable_logic.state());
 		if(current.mytype != null) {
 			console.log("My type is " + current.mytype);
-		}
+		}*/
 
 		if(isOn == true) {
 			this.callIfNotNull(current.onCallback, current);
@@ -65,7 +65,7 @@ FlowManager.prototype.update = function(source, playfield) {
 	if(source == null) {
 		return;
 	}
-	console.log("Starting new flow update!");
+	//console.log("Starting new flow update!");
 
 	source.cable_logic.on();
 	this.callIfNotNull(source.onCallback, source);
@@ -77,5 +77,5 @@ FlowManager.prototype.update = function(source, playfield) {
 	this.rupdate(neighbors.east,  source, Cable.EAST, playfield);
 	this.rupdate(neighbors.west,  source, Cable.WEST, playfield);
 
-	console.log("Ending flow update!");
+	//console.log("Ending flow update!");
 };
