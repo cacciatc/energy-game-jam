@@ -63,10 +63,10 @@ game_state.main.prototype = {
                     sprite.alph2.start();
                 });*/
             };
-
-            InputConfig.setupTouch(sprite);
             game.cable_queue.push(sprite);
         }
+
+        InputConfig.setupTouch(game.cable_queue[game.cable_queue.length - 1]);
 
         // add source and sink
         game.source = game.add.sprite(6 * CableSprite.width, 5 * CableSprite.height, 'foreground', 1);
