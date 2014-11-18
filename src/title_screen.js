@@ -20,8 +20,9 @@ title_screen_state.main.prototype = {
         game.load.audio('incoming', 'res/sfx/BubbleBounce.mp3');
 
         /* spritesheets */
-        game.load.spritesheet('foreground', 'res/gfx/foreground-tiles.png', 32, 32);
+        game.load.spritesheet('foreground', 'res/gfx/foreground-tiles.png', CableSprite.width, CableSprite.height);
         game.load.spritesheet('foreground-tiles', 'res/gfx/powerlinesAlt.png', CableSprite.width, CableSprite.height);
+        game.load.spritesheet('abstract-foreground', 'res/gfx/abstract-foreground.png', CableSprite.width, CableSprite.height);
     },
 
     create: function() { 

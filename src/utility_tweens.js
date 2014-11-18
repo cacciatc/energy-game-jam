@@ -28,7 +28,7 @@ UtilityTweens.cableToNormalSize = function(sprite) {
 		x: 1.0, 
 		y: 1.0 
 	}, 1000, Phaser.Easing.Bounce.Out)
-	.delay(700);
+	.delay(300);
 
 	tween.start();
 };

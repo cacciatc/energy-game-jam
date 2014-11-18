@@ -49,20 +49,19 @@ game_state.main.prototype = {
 
             UtilityTweens.cableToNormalSize(sprite);
 
-            sprite.onCallback = function (sprite) {
-                /*sprite.alph = game.add.tween(sprite);
-                                
-                sprite.alph.to({ alpha: 0.5 }, 500, Phaser.Easing.Circular.InOut);
-                sprite.alph.start();
-
-                sprite.alph.onComplete.add(function (item) {
-                    sprite.alph2 = game.add.tween(item);
-                    sprite.alph2.to({ alpha: 1.0 }, 500, Phaser.Easing.Circular.InOut);
-                    sprite.alph2.onComplete.add(function (item) {
-                        item.alph.start();
-                    });
-                    sprite.alph2.start();
-                });*/
+            sprite.onCallback = function (sprite, neighbor) {
+                if(neighbor.energy_type == "geo") {
+                    sprite.frame = sprite.orig_frame + 6;
+                }
+                else if(neighbor.energy_type == "wind") {
+                    sprite.frame = sprite.orig_frame + 12;
+                }
+                else if(neighbor.energy_type == "solar") {
+                    sprite.frame = sprite.orig_frame + 18;
+                }
+                else {
+                    sprite.frame = sprite.orig_frame;
+                }
             };
             game.cable_queue.push(sprite);
         }
@@ -70,11 +69,15 @@ game_state.main.prototype = {
         InputConfig.setupTouch(game.cable_queue[game.cable_queue.length - 1]);
 
         // add source and sink
-        game.source = game.add.sprite(6 * CableSprite.width, 5 * CableSprite.height, 'foreground', 1);
+        game.source = game.add.sprite(4 * CableSprite.width, 1 * CableSprite.height, 'abstract-foreground', 0);
+        game.source.animations.add('on', [0+5, 1+5, 2+5, 3+5, 4+5], 5, true);
+        game.source.play('on');
+        game.source.energy_type = "wind";
+
         game.source.cable_logic = new Cable(Cable.SOUTH, Cable.EAST);
 
-        game.sink = game.add.sprite(6 * CableSprite.width + (CableSprite.width * CableSprite.width), 5 * CableSprite.height + (11 * CableSprite.height), 
-            'foreground', 0);
+        game.sink = game.add.sprite(10 * CableSprite.width, 8 * CableSprite.height, 
+            'abstract-foreground', 39);
 
         game.sink.cable_logic = new Cable(Cable.NORTH, Cable.WEST);
 
@@ -85,7 +88,7 @@ game_state.main.prototype = {
         UtilityTweens.fadeInCable(game.sink);
 
         game.play_field.set(0, 0, game.source);
-        game.play_field.set(16, 11, game.sink);
+        game.play_field.set(6, 7, game.sink);
     },
 
     update: function() { }

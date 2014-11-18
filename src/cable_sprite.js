@@ -6,25 +6,27 @@ CableSprite.create = function(cable_logic, x, y) {
 	var frame = 0;
 
 	if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.SOUTH) {
-		frame = 4;
-	}
-	else if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.WEST) {
 		frame = 15;
 	}
+	else if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.WEST) {
+		frame = 17;
+	}
 	else if(cable_logic.entrance() == Cable.NORTH && cable_logic.exit() == Cable.EAST) {
-		frame = 12;
+		frame = 16;
 	}
 	else if(cable_logic.entrance() == Cable.SOUTH && cable_logic.exit() == Cable.EAST) {
-		frame = 0;
+		frame = 19;
 	}
 	else if(cable_logic.entrance() == Cable.SOUTH && cable_logic.exit() == Cable.WEST) {
-		frame = 3;
+		frame = 18;
 	}
 	else if(cable_logic.entrance() == Cable.WEST && cable_logic.exit() == Cable.EAST) {
-		frame = 1;
+		frame = 20;
 	}
 
-	var sprite = game.add.sprite(x, y, 'foreground-tiles', frame);
+	var sprite = game.add.sprite(x, y, 'abstract-foreground', frame);
+
+	sprite.orig_frame = frame;
 
 	sprite.cable_logic = cable_logic;
 

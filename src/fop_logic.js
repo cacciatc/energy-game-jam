@@ -75,14 +75,13 @@ FOPLogic.prototype.fixLocation = function(item) {
 		game.cable_queue.reverse();
 
 		game.play_field.forEach(function(square) {
-        	/*if(square.alph2 != null)
-        	square.alph2.stop();
-        	if(square.alph != null)
-        	square.alph.stop();
-        square.alpha = 1.0;*/
-        square.cable_logic.off();
-        square.alpha = 1.0;
-    });
+	        square.cable_logic.off();
+	        if(game.source != square) {
+	     	   square.energy_type = null;
+	     	   square.frame = square.orig_frame;
+	    	}
+	        square.alpha = 1.0;
+    	});
 
 		game.flow_manager.update(game.source, game.play_field);
 

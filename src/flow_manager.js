@@ -1,7 +1,7 @@
 function FlowManager() {
-	this.callIfNotNull = function(fn, item) {
+	this.callIfNotNull = function(fn, item1, item2) {
 		if(fn != null) {
-			fn(item);
+			fn(item1, item2);
 		}
 	};
 
@@ -30,13 +30,10 @@ function FlowManager() {
 			isOn = true;
 		}
 
-		/*console.log("Square: " + current.row + ", " + current.col + " was " + current.cable_logic.state());
-		if(current.mytype != null) {
-			console.log("My type is " + current.mytype);
-		}*/
-
 		if(isOn == true) {
-			this.callIfNotNull(current.onCallback, current);
+			current.energy_type = neighbor.energy_type + "";
+
+			this.callIfNotNull(current.onCallback, current, neighbor);
 
 			var neighbors = playfield.neighbors(current);
 		
@@ -68,7 +65,7 @@ FlowManager.prototype.update = function(source, playfield) {
 	//console.log("Starting new flow update!");
 
 	source.cable_logic.on();
-	this.callIfNotNull(source.onCallback, source);
+	this.callIfNotNull(source.onCallback, source, source);
 
 	var neighbors = playfield.neighbors(source);
 	

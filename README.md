@@ -1,3 +1,16 @@
+TODO:
+
+1. bug where the frame change doesn't always go through, but the wire is still connected.
+2. color in the connected homes.
+3. support multiple source and sinks.
+4. create 5 levels
+5. add timer
+6. add level transitions.
+7. add level over gfx
+8. add game instructions gfx.
+9. add game over gfx.
+10. add game won gfx.
+
 Remember to
 -----------
 
