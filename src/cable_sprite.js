@@ -40,5 +40,5 @@ CableSprite.create = function(cable_logic, x, y) {
 	return sprite;
 };
 
-CableSprite.width = 32;
-CableSprite.height = 32;
+CableSprite.width = 64;
+CableSprite.height = 64;

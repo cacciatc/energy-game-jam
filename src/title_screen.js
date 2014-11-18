@@ -5,7 +5,7 @@ title_screen_state.main = function() { };
 title_screen_state.main.prototype = {
     preload: function() { 
         /* tilemaps */
-        game.load.tilemap('pipecity', 'res/levels/level1.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('pipecity', 'res/levels/bigger-level.json', null, Phaser.Tilemap.TILED_JSON);
 
        	/* imgs */
         game.load.image('tiles', 'res/gfx/background-tiles.png');
@@ -21,7 +21,7 @@ title_screen_state.main.prototype = {
 
         /* spritesheets */
         game.load.spritesheet('foreground', 'res/gfx/foreground-tiles.png', 32, 32);
-        game.load.spritesheet('foreground-tiles', 'res/gfx/powerlinesAlt.png', 32, 32);
+        game.load.spritesheet('foreground-tiles', 'res/gfx/powerlinesAlt.png', CableSprite.width, CableSprite.height);
     },
 
     create: function() { 

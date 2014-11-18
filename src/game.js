@@ -1,5 +1,5 @@
 // Initialize Phaser, and creates a 400x490px game
-var game = new Phaser.Game(800, 640, Phaser.AUTO, 'game_div');
+var game = new Phaser.Game(768, 640, Phaser.AUTO, 'game_div');
 var game_state = {};
 
 // Creates a new 'main' state that wil contain the game
@@ -12,11 +12,12 @@ game_state.main.prototype = {
     create: function() {
         /* create tilesets */
         map = game.add.tilemap('pipecity');
+
         map.addTilesetImage('background-tiles', 'tiles');
         map.addTilesetImage('background2', 'tiles2');
 
         /* create layer */
-        var layer1 = map.createLayer('Background');
+        var layer1 = map.createLayer('Background Layer');
         layer1.resizeWorld();
 
         layer1.alpha = 0.0;
@@ -38,13 +39,13 @@ game_state.main.prototype = {
         game.cable_generator = LevelLoader.load(LevelLoader.LEVEL1);
         
         /* playfield is a mapped collection */
-        game.play_field = new Playfield(17, 12);
+        game.play_field = new Playfield(7, 8);
 
         this.QUEUE_SIZE = 9;
         for(var i = 0; i < this.QUEUE_SIZE; i++) {
             var cable_logic = game.cable_generator.next();
             
-            var sprite = CableSprite.create(cable_logic, 64 + 16, 0 + (i * CableSprite.height) + 16);
+            var sprite = CableSprite.create(cable_logic, 64 + CableSprite.width/2, 0 + (i * CableSprite.height) + CableSprite.height/2);
 
             UtilityTweens.cableToNormalSize(sprite);
 
@@ -72,7 +73,7 @@ game_state.main.prototype = {
         game.source = game.add.sprite(6 * CableSprite.width, 5 * CableSprite.height, 'foreground', 1);
         game.source.cable_logic = new Cable(Cable.SOUTH, Cable.EAST);
 
-        game.sink = game.add.sprite(6 * CableSprite.width + (16 * CableSprite.width), 5 * CableSprite.height + (11 * CableSprite.height), 
+        game.sink = game.add.sprite(6 * CableSprite.width + (CableSprite.width * CableSprite.width), 5 * CableSprite.height + (11 * CableSprite.height), 
             'foreground', 0);
 
         game.sink.cable_logic = new Cable(Cable.NORTH, Cable.WEST);

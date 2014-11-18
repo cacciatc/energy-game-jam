@@ -3,25 +3,25 @@ function FOPLogic() {
 };
 
 FOPLogic.prototype.fixLocation = function(item) {
-	var x = 6 * CableSprite.width;
-	var y = 5 * CableSprite.height;
+	var x = 4 * CableSprite.width;
+	var y = 1 * CableSprite.height;
 
-	var width = 17 * CableSprite.width;
-	var height = 12 * CableSprite.height;
+	var width = 7 * CableSprite.width;
+	var height = 8 * CableSprite.height;
 
 	if(item.x >= x && item.x <= x + width &&
 		item.y >= y && item.y <= y + height) {
 
-		var col = Math.round((item.x + 16) / CableSprite.width);
-	var row = Math.round((item.y + 16) / CableSprite.height);
+		var col = Math.round((item.x + CableSprite.width/2) / CableSprite.width);
+		var row = Math.round((item.y + CableSprite.height/2) / CableSprite.height);
 
 		//nearest x
-		var item_x = (col * CableSprite.width) - 16;
+		var item_x = (col * CableSprite.width) - CableSprite.width/2;
 		//nearest y
-		var item_y = (row * CableSprite.height) - 16;
+		var item_y = (row * CableSprite.height) - CableSprite.height/2;
 
-		var col2 = Math.round((item.x + 16 - x) / CableSprite.width) - 1;
-		var row2 = Math.round((item.y + 16 - y) / CableSprite.height) - 1;
+		var col2 = Math.round((item.x + CableSprite.width/2 - x) / CableSprite.width) - 1;
+		var row2 = Math.round((item.y + CableSprite.height/2 - y) / CableSprite.height) - 1;
 
 		item.row = col2;
 		item.col = row2;
@@ -51,10 +51,10 @@ FOPLogic.prototype.fixLocation = function(item) {
 
 		for(var j = game.cable_queue.length-1; j >= 0; j--) {
 			var t = game.add.tween(game.cable_queue[j]);
-			t.to({ y: game.cable_queue[j].y + 32 }, 500, Phaser.Easing.Bounce.Out).delay(500 - (j*50));
+			t.to({ y: game.cable_queue[j].y + CableSprite.height }, 500, Phaser.Easing.Bounce.Out).delay(500 - (j*50));
 			t.start();
 
-			game.cable_queue[j].orig_y = game.cable_queue[j].y + 32;
+			game.cable_queue[j].orig_y = game.cable_queue[j].y + CableSprite.height;
 		}
 
 		var next_cable = game.cable_queue[game.cable_queue.length - 1];
@@ -62,7 +62,7 @@ FOPLogic.prototype.fixLocation = function(item) {
 
 		var cable_logic = game.cable_generator.next();
 		
-		var sprite = CableSprite.create(cable_logic, 64 + 16, 0 + 16);
+		var sprite = CableSprite.create(cable_logic, 64 + CableSprite.width/2, 0 + CableSprite.height/2);
 
 		UtilityTweens.cableToNormalSize(sprite);
 
