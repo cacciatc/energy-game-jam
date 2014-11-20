@@ -1,7 +1,7 @@
 require 'sinatra'
 
-set :public_folder, "."
+set :public_folder, "./"
 
 get '/'  do
-  send_file "./index.html"
+  send_file "index.html"
 end
