@@ -4,10 +4,10 @@ function FOPLogic() {
 
 FOPLogic.prototype.fixLocation = function(item) {
 	var x = 4 * CableSprite.width;
-	var y = 1 * CableSprite.height;
+	var y = 4 * CableSprite.height;
 
-	var width = 7 * CableSprite.width;
-	var height = 8 * CableSprite.height;
+	var width = 15 * CableSprite.width;
+	var height = 5 * CableSprite.height;
 
 	if(item.x >= x && item.x <= x + width &&
 		item.y >= y && item.y <= y + height) {

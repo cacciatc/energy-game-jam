@@ -39,7 +39,7 @@ game_state.main.prototype = {
         game.cable_generator = LevelLoader.load(LevelLoader.LEVEL1);
         
         /* playfield is a mapped collection */
-        game.play_field = new Playfield(7, 8);
+        game.play_field = new Playfield(15, 5);
 
         this.QUEUE_SIZE = 9;
         for(var i = 0; i < this.QUEUE_SIZE; i++) {
@@ -69,7 +69,7 @@ game_state.main.prototype = {
         InputConfig.setupTouch(game.cable_queue[game.cable_queue.length - 1]);
 
         // add source and sink
-        game.source = game.add.sprite(4 * CableSprite.width, 1 * CableSprite.height, 'abstract-foreground', 0);
+        game.source = game.add.sprite(4 * CableSprite.width, 4 * CableSprite.height, 'abstract-foreground', 0);
         game.source.animations.add('on', [0+5, 1+5, 2+5, 3+5, 4+5], 5, true);
         game.source.play('on');
         game.source.energy_type = "wind";
@@ -88,7 +88,7 @@ game_state.main.prototype = {
         UtilityTweens.fadeInCable(game.sink);
 
         game.play_field.set(0, 0, game.source);
-        game.play_field.set(6, 7, game.sink);
+        game.play_field.set(6, 4, game.sink);
     },
 
     update: function() { }

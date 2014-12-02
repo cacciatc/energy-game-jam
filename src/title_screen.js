@@ -29,6 +29,8 @@ title_screen_state.main.prototype = {
         var sprite = game.add.sprite(0, 0, 'title');
         sprite.inputEnabled = true;
         game.title_done = false;
+        sprite.x = game.width/2 - sprite.width/2;
+        game.stage.backgroundColor = '#3f89b2';
 
         sprite.events.onInputUp.add( function(item) {
             if(!game.title_done){
