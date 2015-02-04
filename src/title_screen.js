@@ -26,6 +26,8 @@ title_screen_state.main.prototype = {
     },
 
     create: function() { 
+        game.next_level = 1;
+
         var sprite = game.add.sprite(0, 0, 'title');
         sprite.inputEnabled = true;
         game.title_done = false;

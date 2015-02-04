@@ -36,7 +36,8 @@ game_state.main.prototype = {
 
         /* create initial tiles */
         game.cable_queue = [];
-        game.cable_generator = LevelLoader.load(LevelLoader.LEVEL1);
+        game.current_level = LevelLoader.load(game.next_level);
+        game.cable_generator = game.current_level.generator;
         
         /* playfield is a mapped collection */
         game.play_field = new Playfield(15, 8);
@@ -69,14 +70,15 @@ game_state.main.prototype = {
         InputConfig.setupTouch(game.cable_queue[game.cable_queue.length - 1]);
 
         // add source and sink
-        game.source = game.add.sprite(4 * CableSprite.width, 4 * CableSprite.height, 'abstract-foreground', 0);
+        game.source = game.add.sprite(game.current_level.source.xp, game.current_level.source.yp, 
+            'abstract-foreground', 0);
         game.source.animations.add('on', [0+5, 1+5, 2+5, 3+5, 4+5], 5, true);
         game.source.play('on');
         game.source.energy_type = "wind";
 
         game.source.cable_logic = new Cable(Cable.SOUTH, Cable.EAST);
 
-        game.sink = game.add.sprite(10 * CableSprite.width, 8 * CableSprite.height, 
+        game.sink = game.add.sprite(game.current_level.sink.xp, game.current_level.sink.yp, 
             'abstract-foreground', 39);
 
         game.sink.cable_logic = new Cable(Cable.NORTH, Cable.WEST);
@@ -86,9 +88,9 @@ game_state.main.prototype = {
         
         UtilityTweens.fadeInCable(game.source);
         UtilityTweens.fadeInCable(game.sink);
-
-        game.play_field.set(0, 3, game.source);
-        game.play_field.set(6, 7, game.sink);
+        
+        game.play_field.set(game.current_level.source.x, game.current_level.source.y, game.source);
+        game.play_field.set(game.current_level.sink.x, game.current_level.sink.y, game.sink);
     },
 
     update: function() { }

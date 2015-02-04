@@ -60,7 +60,6 @@ FOPLogic.prototype.fixLocation = function(item) {
 		var next_cable = game.cable_queue[game.cable_queue.length - 1];
 		InputConfig.setupTouch(next_cable);
 		next_cable.onCallback = function (sprite, neighbor) {
-            console.log("in callback");
             if(neighbor.energy_type == "geo") {
                 sprite.frame = sprite.orig_frame + 6;
             }
@@ -114,6 +113,14 @@ FOPLogic.prototype.fixLocation = function(item) {
 
                 t4.to({ x: 1.0, y: 1.0 }, 2000, Phaser.Easing.Bounce.Out).delay(0);
                 t4.start();
+
+                var t5 = game.add.tween({dummy:0});
+                t5.to({ dummy:10 }, 6000, Phaser.Easing.Bounce.Out).delay(0);
+                t5.onComplete.add(function () {
+                	game.next_level = game.next_level + 1;
+                	game.state.start('main');
+                });
+                t5.start();
             }
 		}
 	}
