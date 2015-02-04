@@ -1,4 +1,4 @@
-var title_screen_state = {};
+title_screen_state = {};
 
 title_screen_state.main = function() { };
 
@@ -32,6 +32,9 @@ title_screen_state.main.prototype = {
         sprite.x = game.width/2 - sprite.width/2;
         game.stage.backgroundColor = '#3f89b2';
 
+        game.state.add("intro1", level_1_intro_state.main);
+        game.state.add("game", game.main);
+
         sprite.events.onInputUp.add( function(item) {
             if(!game.title_done){
 
@@ -41,7 +44,7 @@ title_screen_state.main.prototype = {
 
                 game.title_tween.onComplete.add(function () {
                     if(game.title_done){
-                        game.state.start('main'); 
+                        game.state.start('intro1'); 
                     }
                 });
 

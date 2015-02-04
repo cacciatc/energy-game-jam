@@ -1,6 +1,6 @@
 // Initialize Phaser, and creates a 400x490px game
 var game = new Phaser.Game(1280, 640, Phaser.AUTO, 'game_div');
-var game_state = {};
+game_state = {};
 
 // Creates a new 'main' state that wil contain the game
 game_state.main = function() { };  
@@ -39,7 +39,7 @@ game_state.main.prototype = {
         game.cable_generator = LevelLoader.load(LevelLoader.LEVEL1);
         
         /* playfield is a mapped collection */
-        game.play_field = new Playfield(15, 5);
+        game.play_field = new Playfield(15, 8);
 
         this.QUEUE_SIZE = 9;
         for(var i = 0; i < this.QUEUE_SIZE; i++) {
@@ -87,8 +87,8 @@ game_state.main.prototype = {
         UtilityTweens.fadeInCable(game.source);
         UtilityTweens.fadeInCable(game.sink);
 
-        game.play_field.set(0, 0, game.source);
-        game.play_field.set(6, 4, game.sink);
+        game.play_field.set(0, 3, game.source);
+        game.play_field.set(6, 7, game.sink);
     },
 
     update: function() { }
@@ -97,4 +97,6 @@ game_state.main.prototype = {
 // Add and start the 'main' state to start the game
 game.state.add('main', game_state.main); 
 game.state.add('title', title_screen_state.main); 
+game.state.add('intro1', level_1_intro_state.main); 
+
 game.state.start('title');

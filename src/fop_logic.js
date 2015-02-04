@@ -4,10 +4,10 @@ function FOPLogic() {
 
 FOPLogic.prototype.fixLocation = function(item) {
 	var x = 4 * CableSprite.width;
-	var y = 4 * CableSprite.height;
+	var y = 1 * CableSprite.height;
 
 	var width = 15 * CableSprite.width;
-	var height = 5 * CableSprite.height;
+	var height = 8 * CableSprite.height;
 
 	if(item.x >= x && item.x <= x + width &&
 		item.y >= y && item.y <= y + height) {
@@ -59,6 +59,21 @@ FOPLogic.prototype.fixLocation = function(item) {
 
 		var next_cable = game.cable_queue[game.cable_queue.length - 1];
 		InputConfig.setupTouch(next_cable);
+		next_cable.onCallback = function (sprite, neighbor) {
+            console.log("in callback");
+            if(neighbor.energy_type == "geo") {
+                sprite.frame = sprite.orig_frame + 6;
+            }
+            else if(neighbor.energy_type == "wind") {
+                sprite.frame = sprite.orig_frame + 12;
+            }
+            else if(neighbor.energy_type == "solar") {
+                sprite.frame = sprite.orig_frame + 18;
+            }
+            else {
+                sprite.frame = sprite.orig_frame;
+            }
+        };
 
 		var cable_logic = game.cable_generator.next();
 		
@@ -87,16 +102,19 @@ FOPLogic.prototype.fixLocation = function(item) {
 
 		/* if the sink is on, then the level is over */
 		if(game.sink.cable_logic.state() == true) {
-			var sp2 = game.add.sprite((5*CableSprite.width) + (15*CableSprite.width/2), (CableSprite.height*7) + (3*CableSprite.height/2), 'game-won');
-			var t4 = game.add.tween(sp2.scale);
+			if(!game.is_game_over) {
+                game.is_game_over = true;
+                var sp2 = game.add.sprite(640, 320, 'game-won');
+                var t4 = game.add.tween(sp2.scale);
 
-			sp2.scale.x = 0;
-			sp2.scale.y = 0;
-			sp2.anchor.x = 0.5;
-			sp2.anchor.y = 0.5;
+                sp2.scale.x = 0;
+                sp2.scale.y = 0;
+                sp2.anchor.x = 0.5;
+                sp2.anchor.y = 0.5;
 
-			t4.to({ x: 1.0, y: 1.0 }, 2000, Phaser.Easing.Bounce.Out).delay(0);
-			t4.start();
+                t4.to({ x: 1.0, y: 1.0 }, 2000, Phaser.Easing.Bounce.Out).delay(0);
+                t4.start();
+            }
 		}
 	}
 	else {

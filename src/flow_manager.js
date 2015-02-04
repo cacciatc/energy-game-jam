@@ -10,6 +10,11 @@ function FlowManager() {
 			return;
 		}
 
+		if(current == game.sink) {
+			current.cable_logic.on();
+			return;
+		}
+
 		var cable = current.cable_logic;
 		var isOn = false;
 
@@ -62,7 +67,6 @@ FlowManager.prototype.update = function(source, playfield) {
 	if(source == null) {
 		return;
 	}
-	//console.log("Starting new flow update!");
 
 	source.cable_logic.on();
 	this.callIfNotNull(source.onCallback, source, source);
@@ -73,6 +77,4 @@ FlowManager.prototype.update = function(source, playfield) {
 	this.rupdate(neighbors.south, source, Cable.SOUTH, playfield);
 	this.rupdate(neighbors.east,  source, Cable.EAST, playfield);
 	this.rupdate(neighbors.west,  source, Cable.WEST, playfield);
-
-	//console.log("Ending flow update!");
 };
