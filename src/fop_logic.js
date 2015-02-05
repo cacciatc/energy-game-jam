@@ -138,7 +138,12 @@ FOPLogic.prototype.fixLocation = function(item) {
                 t5.to({ dummy:10 }, 6000, Phaser.Easing.Bounce.Out).delay(0);
                 t5.onComplete.add(function () {
                 	game.next_level = game.next_level + 1;
-                	game.state.start('main');
+                	if(game.next_level > 3) {
+                		game.state.start('gameover');
+                	}
+                	else {
+                		game.state.start('main');
+                	}
                 });
                 t5.start();
             }

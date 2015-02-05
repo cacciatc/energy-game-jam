@@ -46,7 +46,7 @@ title_screen_state.main.prototype = {
 
                 game.title_tween.onComplete.add(function () {
                     if(game.title_done){
-                        game.state.start('intro1'); 
+                        game.state.start("gameover");//'intro1'); 
                     }
                 });
 

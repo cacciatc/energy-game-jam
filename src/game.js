@@ -122,5 +122,6 @@ game_state.main.prototype = {
 game.state.add('main', game_state.main); 
 game.state.add('title', title_screen_state.main); 
 game.state.add('intro1', level_1_intro_state.main); 
+game.state.add('gameover', game_over_state.main); 
 
 game.state.start('title');
