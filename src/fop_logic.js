@@ -88,6 +88,10 @@ FOPLogic.prototype.fixLocation = function(item) {
 		game.cable_queue.push(sprite);
 		game.cable_queue.reverse();
 
+	 	for(var i = 0 ; i < game.sinks.length; i++) {
+		    game.sinks[i] .frame = 39;
+		}
+
 		game.play_field.forEach(function(square) {
 	        square.cable_logic.off();
 	        var isasink = false;

@@ -13,6 +13,19 @@ function FlowManager() {
 		for(var i = 0 ; i < game.sinks.length; i++) {
 			if(current == game.sinks[i]) {
 				current.cable_logic.on();
+
+				if(neighbor.energy_type == "geo") {
+	                current.frame = 42;
+	            }
+	            else if(neighbor.energy_type == "wind") {
+	                current.frame = 41;
+	            }
+	            else if(neighbor.energy_type == "solar") {
+	                current.frame = 40;
+	            }
+	            else {
+	                current.frame = 39;
+	            }
 				return;
 			}
 		}
