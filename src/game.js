@@ -70,27 +70,49 @@ game_state.main.prototype = {
         InputConfig.setupTouch(game.cable_queue[game.cable_queue.length - 1]);
 
         // add source and sink
-        game.source = game.add.sprite(game.current_level.source.xp, game.current_level.source.yp, 
+        game.sources = [];
+        game.sinks = [];
+
+        for(var q = 0; q < game.current_level.sources.length;q++) {
+            var tmp_sprite = game.add.sprite(game.current_level.sources[q].xp, game.current_level.sources[q].yp, 
             'abstract-foreground', 0);
-        game.source.animations.add('on', [0+5, 1+5, 2+5, 3+5, 4+5], 5, true);
-        game.source.play('on');
-        game.source.energy_type = "wind";
+            var offset = 5;
 
-        game.source.cable_logic = new Cable(Cable.SOUTH, Cable.EAST);
+            if(game.current_level.sources[q].energy == 'wind') {
+                // nop
+            }
+            else if(game.current_level.sources[q].energy  == 'geo') {
+                offset = 0;
+            }
+            else if(game.current_level.sources[q].energy  == 'solar') {
+                offset = 10;
+            }
+            tmp_sprite.animations.add('on', [0+offset, 1+offset, 2+offset, 3+offset, 4+offset], 5, true);
+            tmp_sprite.play('on');
+            tmp_sprite.energy_type = game.current_level.sources[q].energy;
 
-        game.sink = game.add.sprite(game.current_level.sink.xp, game.current_level.sink.yp, 
+            tmp_sprite.cable_logic = new Cable(Cable.SOUTH, Cable.EAST);
+            tmp_sprite.alpha = 0;
+
+            game.sources.push(tmp_sprite);
+
+            UtilityTweens.fadeInCable(tmp_sprite);
+
+            game.play_field.set(game.current_level.sources[q].x, game.current_level.sources[q].y, tmp_sprite);
+        }
+
+        for(var q = 0; q < game.current_level.sinks.length;q++) {
+            var tmp_sprite = game.add.sprite(game.current_level.sinks[q].xp, game.current_level.sinks[q].yp, 
             'abstract-foreground', 39);
 
-        game.sink.cable_logic = new Cable(Cable.NORTH, Cable.WEST);
+            tmp_sprite.cable_logic = new Cable(Cable.NORTH, Cable.WEST);
 
-        game.source.alpha = 0;
-        game.sink.alpha = 0;
-        
-        UtilityTweens.fadeInCable(game.source);
-        UtilityTweens.fadeInCable(game.sink);
-        
-        game.play_field.set(game.current_level.source.x, game.current_level.source.y, game.source);
-        game.play_field.set(game.current_level.sink.x, game.current_level.sink.y, game.sink);
+            game.sinks.push(tmp_sprite);
+
+            UtilityTweens.fadeInCable(tmp_sprite);
+
+            game.play_field.set(game.current_level.sinks[q].x, game.current_level.sinks[q].y, tmp_sprite);
+        }
     },
 
     update: function() { }

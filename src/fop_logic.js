@@ -90,17 +90,33 @@ FOPLogic.prototype.fixLocation = function(item) {
 
 		game.play_field.forEach(function(square) {
 	        square.cable_logic.off();
-	        if(game.source != square) {
-	     	   square.energy_type = null;
-	     	   square.frame = square.orig_frame;
-	    	}
+	        var isasink = false;
+	        for(var i = 0 ; i < game.sources.length; i++) {
+				if(game.sources[i] == square) {
+		     	   isasink = true;
+	    		}
+			}
+			if(!isasink) {
+				square.energy_type = null;
+		     	square.frame = square.orig_frame;
+			}
+	       
 	        square.alpha = 1.0;
     	});
 
-		game.flow_manager.update(game.source, game.play_field);
-
-		/* if the sink is on, then the level is over */
-		if(game.sink.cable_logic.state() == true) {
+		for(var i = 0 ; i < game.sources.length; i++) {
+			game.flow_manager.update(game.sources[i], game.play_field);
+		}
+		
+		/* if the sinks are on, then the level is over */
+		var allgood = true;
+		for(var i = 0 ; i < game.sinks.length; i++) {
+			if(game.sinks[i].cable_logic.state() == false) {
+				allgood = false;
+				return;
+			}
+		}
+		if(allgood){
 			if(!game.is_game_over) {
                 game.is_game_over = true;
                 var sp2 = game.add.sprite(640, 320, 'game-won');

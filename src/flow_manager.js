@@ -10,9 +10,11 @@ function FlowManager() {
 			return;
 		}
 
-		if(current == game.sink) {
-			current.cable_logic.on();
-			return;
+		for(var i = 0 ; i < game.sinks.length; i++) {
+			if(current == game.sinks[i]) {
+				current.cable_logic.on();
+				return;
+			}
 		}
 
 		var cable = current.cable_logic;
